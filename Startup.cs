@@ -26,6 +26,7 @@ namespace PizzaHotOnion
             });
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
         }
 
@@ -36,11 +37,6 @@ namespace PizzaHotOnion
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            // app.Run(async (context) =>
-            // {
-            //     await context.Response.WriteAsync("Hello World!");
-            // });
 
             app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } })
                 .UseStaticFiles()
