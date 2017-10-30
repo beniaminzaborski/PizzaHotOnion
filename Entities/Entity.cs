@@ -11,6 +11,6 @@ namespace PizzaHotOnion.Entities
         }
 
         [BsonId]
-        public Guid Id { get; protected set; }
+        public Guid Id { get; set; }
     }
 }

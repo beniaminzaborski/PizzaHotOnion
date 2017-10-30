@@ -43,6 +43,9 @@ namespace PizzaHotOnion.Controllers
             if (room == null)
                 return BadRequest();
 
+            if(room.Id == Guid.Empty)
+                room.Id = Guid.NewGuid();
+
             /*var id = */await this.roomRepository.Add(room);
             
             //return CreatedAtRoute("GetRoom", new { id = id }, new { });
