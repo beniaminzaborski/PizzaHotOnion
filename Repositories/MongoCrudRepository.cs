@@ -58,7 +58,7 @@ namespace PizzaHotOnion.Repositories
                 );
         }
 
-        public async Task Remove(string id)
+        public async Task Remove(Guid id)
         {
             var filter = Builders<TEntity>.Filter.Eq(nameof(Entity.Id), id);
             await this.GetMongoCollection()

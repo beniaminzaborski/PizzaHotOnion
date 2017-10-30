@@ -16,6 +16,6 @@ namespace PizzaHotOnion.Repositories
 
         Task Update(TEntity entity);
 
-        Task Remove(string id);
+        Task Remove(Guid id);
     }
 }
