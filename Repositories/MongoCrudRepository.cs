@@ -12,7 +12,7 @@ namespace PizzaHotOnion.Repositories
     public abstract class MongoCrudRepository<TEntity> : ICrudRepository<TEntity>
         where TEntity : Entity
     {
-        private readonly IMongoDatabase database = null;
+        protected readonly IMongoDatabase database = null;
 
         public MongoCrudRepository(IOptions<Settings> settings)
         {

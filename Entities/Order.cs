@@ -11,5 +11,7 @@ namespace PizzaHotOnion.Entities
         public int Quantity { get; set; }
 
         public User Who { get; set; }
+
+        public string Room { get; set; }
     }
 }
