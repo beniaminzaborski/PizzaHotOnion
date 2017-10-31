@@ -58,7 +58,7 @@ namespace PizzaHotOnion.Controllers
         newRoom.Name = roomDTO.Name;
         await this.roomRepository.Add(newRoom);
 
-        return CreatedAtRoute("GetRoom", new { id = roomDTO.Name }, new { });
+        return CreatedAtRoute("GetRoom", new { name = roomDTO.Name }, new {});
       }
 
       return new NoContentResult();
