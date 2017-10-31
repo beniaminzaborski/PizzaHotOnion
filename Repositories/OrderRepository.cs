@@ -14,7 +14,7 @@ namespace PizzaHotOnion.Repositories
 
         public async Task<IEnumerable<Order>> GetAllInRoom(string room)
         {
-            var filter = Builders<Order>.Filter.Eq(nameof(Order.Room), room);
+            var filter = Builders<Order>.Filter.Eq(nameof(Order.Room) + '.' + nameof(Room.Name), room);
             return await this.GetMongoCollection()
                 .Find(filter)
                 .ToListAsync();

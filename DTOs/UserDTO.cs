@@ -1,15 +1,17 @@
 using System;
 
-namespace PizzaHotOnion.Entities
+namespace PizzaHotOnion.DTOs
 {
-    public class User : Entity
+    public class RegisterUserDTO
     {
-        public User(Guid id) : base(id) { }
+        public Guid Id { get; set; }
 
         public string Login { get; set; }
 
         public string Email { get; set; }
 
         public string Passwd { get; set; }
+
+        public string Passwd2 { get; set; }
     }
 }

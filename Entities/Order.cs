@@ -12,6 +12,6 @@ namespace PizzaHotOnion.Entities
 
         public User Who { get; set; }
 
-        public string Room { get; set; }
+        public Room Room { get; set; }
     }
 }
