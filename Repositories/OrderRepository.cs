@@ -5,6 +5,7 @@ using PizzaHotOnion.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Driver;
+using System;
 
 namespace PizzaHotOnion.Repositories
 {
@@ -18,6 +19,16 @@ namespace PizzaHotOnion.Repositories
       return await this.GetMongoCollection()
           .Find(filter)
           .ToListAsync();
+    }
+
+    public async Task<bool> CheckOrderExists(string room, DateTime orderDay, string who)
+    {
+      var filter = Builders<Order>.Filter.Eq(nameof(Order.Room) + '.' + nameof(Room.Name), room);
+      filter = filter & (Builders<Order>.Filter.Eq(nameof(Order.Day), orderDay));
+      filter = filter & (Builders<Order>.Filter.Eq(nameof(Order.Who) + '.' + nameof(User.Login), who));
+      return await this.GetMongoCollection()
+          .Find(filter)
+          .AnyAsync();
     }
   }
 }

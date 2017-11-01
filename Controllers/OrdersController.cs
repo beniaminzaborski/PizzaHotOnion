@@ -69,19 +69,13 @@ namespace PizzaHotOnion.Controllers
     }
 
     [HttpPost("{room}")]
-    public async Task<IActionResult> Create(string room, [FromBody]OrderDTO orderDTO)
+    public async Task<IActionResult> Create(string room, [FromBody]MakeOrderDTO orderDTO)
     {
       if (orderDTO == null)
         return BadRequest();
 
-      if (orderDTO.Id == Guid.Empty)
-        orderDTO.Id = Guid.NewGuid();
-
       if (orderDTO.Quantity < 1)
         return BadRequest("Quantity has to be greater or equal 1");
-
-      if (orderDTO.Day.Date < DateTime.Now.Date)
-        return BadRequest("Day is invalid");
 
       if (string.IsNullOrEmpty(orderDTO.Room))
         return BadRequest("Room is required");
@@ -97,15 +91,20 @@ namespace PizzaHotOnion.Controllers
       if (userEntity == null)
         return BadRequest(string.Format("User '{0}' does not exist", orderDTO.Who));
 
+      DateTime orderDay = DateTime.Now.Date;
+
+      if(await this.orderRepository.CheckOrderExists(orderDTO.Room, orderDay, orderDTO.Who))
+        return BadRequest("Order exists");
+
       Order orderEntity = new Order(Guid.NewGuid());
-      orderEntity.Day = orderDTO.Day.Date;
+      orderEntity.Day = orderDay;
       orderEntity.Quantity = orderDTO.Quantity;
       orderEntity.Who = userEntity;
       orderEntity.Room = roomEntity;
 
       await this.orderRepository.Add(orderEntity);
 
-      return CreatedAtRoute("GetOrder", new { id = orderDTO.Id }, new { });
+      return CreatedAtRoute("GetOrder", new { id = orderEntity.Id }, new { });
     }
 
     /*
