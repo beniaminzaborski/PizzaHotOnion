@@ -7,16 +7,31 @@ using PizzaHotOnion.Entities;
 
 namespace PizzaHotOnion.Repositories
 {
-    public class UserRepository : MongoCrudRepository<User>, IUserRepository
-    {
-        public UserRepository(IOptions<Settings> settings) : base(settings) {}
+  public class UserRepository : MongoCrudRepository<User>, IUserRepository
+  {
+    public UserRepository(IOptions<Settings> settings) : base(settings) { }
 
-        public async Task<User> GetByLoginAsync(string login)
-        {
-            var filter = Builders<User>.Filter.Eq(nameof(User.Login), login);
-            return await this.GetMongoCollection()
-                .Find(filter)
-                .FirstOrDefaultAsync();
-        }
+    public async Task<User> GetByLoginAsync(string login)
+    {
+      var filter = Builders<User>.Filter.Eq(nameof(User.Login), login);
+      return await this.GetMongoCollection()
+          .Find(filter)
+          .FirstOrDefaultAsync();
     }
+
+    public async Task<bool> CheckLoginExists(string login)
+    {
+      var filter = Builders<User>.Filter.Eq(nameof(User.Login), login);
+      return await this.GetMongoCollection()
+          .Find(filter)
+          .AnyAsync();
+    }
+    public async Task<bool> CheckEmailExists(string email)
+    {
+      var filter = Builders<User>.Filter.Eq(nameof(User.Email), email);
+      return await this.GetMongoCollection()
+          .Find(filter)
+          .AnyAsync();
+    }
+  }
 }

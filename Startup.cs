@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using PizzaHotOnion.Configuration;
+using PizzaHotOnion.Infrastructure.Security;
 using PizzaHotOnion.Repositories;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -26,6 +27,7 @@ namespace PizzaHotOnion
                 options.Database = Program.Configuration.GetSection("MongoConnection:Database").Value;
             });
 
+            services.AddSingleton<IPasswordHasher, Md5PasswordHasher>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();

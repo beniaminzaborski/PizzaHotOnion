@@ -58,7 +58,7 @@ namespace PizzaHotOnion.Controllers
         newRoom.Name = roomDTO.Name;
         await this.roomRepository.Add(newRoom);
 
-        return CreatedAtRoute("GetRoom", new { name = roomDTO.Name }, new {});
+        return CreatedAtRoute("GetRoom", new { name = roomDTO.Name }, new { });
       }
 
       return new NoContentResult();
@@ -71,7 +71,7 @@ namespace PizzaHotOnion.Controllers
         return BadRequest();
 
       Room room = await this.roomRepository.GetByNameAsync(name);
-      if(room != null)
+      if (room != null)
         await this.roomRepository.Remove(room.Id);
 
       return new NoContentResult();

@@ -5,17 +5,17 @@ using PizzaHotOnion.Entities;
 
 namespace PizzaHotOnion.Repositories
 {
-    public interface ICrudRepository<TEntity>
-        where TEntity: Entity
-    {
-        Task<IEnumerable<TEntity>> GetAll();
+  public interface ICrudRepository<TEntity>
+      where TEntity : Entity
+  {
+    Task<IEnumerable<TEntity>> GetAll();
 
-        Task<TEntity> Get(Guid id);
+    Task<TEntity> Get(Guid id);
 
-        Task Add(TEntity entity);
+    Task Add(TEntity entity);
 
-        Task Update(TEntity entity);
+    Task Update(TEntity entity);
 
-        Task Remove(Guid id);
-    }
+    Task Remove(Guid id);
+  }
 }

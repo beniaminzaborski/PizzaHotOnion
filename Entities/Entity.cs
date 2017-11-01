@@ -1,16 +1,16 @@
 using System;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace PizzaHotOnion.Entities 
+namespace PizzaHotOnion.Entities
 {
-    public abstract class Entity
+  public abstract class Entity
+  {
+    public Entity(Guid id)
     {
-        public Entity(Guid id)
-        {
-            this.Id = id;
-        }
-
-        [BsonId]
-        public Guid Id { get; set; }
+      this.Id = id;
     }
+
+    [BsonId]
+    public Guid Id { get; set; }
+  }
 }
