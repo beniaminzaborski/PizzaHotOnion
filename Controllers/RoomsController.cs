@@ -5,9 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using PizzaHotOnion.Entities;
 using PizzaHotOnion.Repositories;
 using PizzaHotOnion.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PizzaHotOnion.Controllers
 {
+  //#if RELEASE
+  [Authorize]
+  //#endif
   [Produces("application/json")]
   [Route("api/[controller]")]
   public class RoomsController : Controller
