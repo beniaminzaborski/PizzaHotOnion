@@ -3,17 +3,12 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './rooms.component.html'
 })
-export class AppComponent {
+export class RoomsComponent {
   
   constructor(
     public router: Router/*,
     private authenticationService: AuthenticationService*/) {
-  }
-
-  public logout(): void {
-    
   }
 }

@@ -1,20 +1,65 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<nav role="navigation" class="navbar navbar-inverse navbar-fixed-top" *ngIf="router.url != '/login'">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+        aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" routerLink="/orders" routerLinkActive="active">Hot Onion</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active">
+          <a routerLink="/orders" routerLinkActive="active">Orders</a>
+        </li>
+        <li>
+            <a routerLink="/rooms" routerLinkActive="active">Rooms</a>
+        </li>
+      </ul>
 
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a routerLink="/about" routerLinkActive="active">About</a>
+        </li>
+        <!--<li class="navbar-text pull-left">{{username}}</li>-->
+        <li class="dropdown pull-right">
+          <a href="#" data-toggle="dropdown" style="color:#777;" class="dropdown-toggle">
+            <span class="glyphicon glyphicon-user"></span>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a routerLink="/profile" title="User profile">
+                <span class="fa fa-user" aria-hidden="true"></span> Profile
+              </a>
+            </li>
+            <li>
+              <a href="#" title="Sign Out" (click)="logout(); $event.preventDefault()">
+                <span class="fa fa-sign-out" aria-hidden="true"></span> Sign Out
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div [ngClass]="{'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main': router.url != '/login' }">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<footer class="footer navbar-inverse navbar-fixed-bottom">
+  <div class="container-fluid">
+    <span class="text-muted pull-right">
+      <small>&copy; 2017 Biz Development</small>
+    </span>
+  </div>
+</footer>
