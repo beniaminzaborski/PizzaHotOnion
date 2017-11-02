@@ -43,16 +43,23 @@ namespace PizzaHotOnion
 
       //JWT
       tokenValidationParameters = new TokenValidationParametersBuilder().Build();
-      services.AddAuthentication(options =>
+      services
+      .AddAuthenticationCore(options =>
+      {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      })
+      .AddAuthentication(options =>
       {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
       }).AddJwtBearer(o =>
       {
         // You also need to update /wwwroot/app/scripts/app.js
-        o.Authority = tokenValidationParameters.ValidIssuer;
+        //o.Authority = tokenValidationParameters.ValidIssuer;
         o.Audience = tokenValidationParameters.ValidAudience;
         o.TokenValidationParameters = tokenValidationParameters;
+        o.RequireHttpsMetadata = false;
       });
 
       // Register the Swagger generator, defining one or more Swagger documents
@@ -102,6 +109,8 @@ namespace PizzaHotOnion
           SigningCredentials = new SigningCredentials(tokenValidationParameters.IssuerSigningKey, SecurityAlgorithms.HmacSha256),
         })
       );
+
+      app.UseAuthentication();
 
       app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } })
           .UseStaticFiles()
