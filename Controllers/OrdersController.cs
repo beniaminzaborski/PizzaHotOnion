@@ -93,7 +93,7 @@ namespace PizzaHotOnion.Controllers
 
       DateTime orderDay = DateTime.Now.Date;
 
-      if(await this.orderRepository.CheckOrderExists(orderDTO.Room, orderDay, orderDTO.Who))
+      if (await this.orderRepository.CheckOrderExists(orderDTO.Room, orderDay, orderDTO.Who))
         return BadRequest("Order exists");
 
       Order orderEntity = new Order(Guid.NewGuid());
@@ -107,34 +107,51 @@ namespace PizzaHotOnion.Controllers
       return CreatedAtRoute("GetOrder", new { id = orderEntity.Id }, new { });
     }
 
-    /*
     [HttpPatch("{room}/{id}")]
-    public async Task<IActionResult> Update(string room, Guid id, [FromBody]Order order)
+    public async Task<IActionResult> Update(string room, Guid id, [FromBody]OrderDTO orderDTO)
     {
-        if (order == null || order.Id != id)
-            return BadRequest();
+      if (orderDTO == null)
+        return BadRequest();
 
-        Order savedOrder = await this.orderRepository.Get(id); 
-        if(savedOrder == null)
-            return BadRequest();
+      if (orderDTO.Id == null || orderDTO.Id == Guid.Empty || orderDTO.Id != id)
+        return BadRequest();
 
-        savedOrder.Quantity = order.Quantity;
+      if (string.IsNullOrWhiteSpace(orderDTO.Room) || orderDTO.Room != room)
+        return BadRequest();
 
-        await this.orderRepository.Update(savedOrder);
+      if (orderDTO.Quantity < 1)
+        return BadRequest("Quantity has to be greater or equal 1");
 
-        return new NoContentResult();
+      Order orderEntity = await this.orderRepository.Get(id);
+      if (orderEntity == null)
+        return BadRequest();
+
+      if(orderEntity.Room.Name != room)
+        return BadRequest();
+
+      orderEntity.Quantity = orderDTO.Quantity;
+
+      await this.orderRepository.Update(orderEntity);
+
+      return new NoContentResult();
     }
 
     [HttpDelete("{room}/{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(string room, Guid id)
     {
          if (id == Guid.Empty)
             return BadRequest();
+
+        var order = await this.orderRepository.Get(id);
+        if(order == null)
+          return BadRequest();
+
+        if(order.Room.Name != room)
+          return BadRequest();
 
         await this.orderRepository.Remove(id);
 
         return new NoContentResult();
     }
-    */
   }
 }
