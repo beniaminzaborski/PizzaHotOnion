@@ -13,10 +13,14 @@ namespace PizzaHotOnion.Controllers
   public class RoomsController : Controller
   {
     private readonly IRoomRepository roomRepository;
+    private readonly IOrderRepository orderRepository;
 
-    public RoomsController(IRoomRepository roomRepository)
+    public RoomsController(
+      IRoomRepository roomRepository,
+      IOrderRepository orderRepository)
     {
       this.roomRepository = roomRepository;
+      this.orderRepository = orderRepository;
     }
 
     [HttpGet]
@@ -69,6 +73,9 @@ namespace PizzaHotOnion.Controllers
     {
       if (string.IsNullOrEmpty(name))
         return BadRequest();
+
+      if(await this.orderRepository.CheckAnyOrderExists(name, DateTime.Now.Date))
+        return BadRequest("Can not remove room because orders exist");
 
       Room room = await this.roomRepository.GetByNameAsync(name);
       if (room != null)

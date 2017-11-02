@@ -10,5 +10,6 @@ namespace PizzaHotOnion.Repositories
   {
     Task<IEnumerable<Order>> GetAllInRoom(string room);
     Task<bool> CheckOrderExists(string room, DateTime orderDay, string who);
+    Task<bool> CheckAnyOrderExists(string room, DateTime orderDay);
   }
 }
