@@ -11,21 +11,14 @@ namespace PizzaHotOnion.Repositories
   {
     public UserRepository(IOptions<Settings> settings) : base(settings) { }
 
-    public async Task<User> GetByLoginAsync(string login)
+    public async Task<User> GetByEmailAsync(string login)
     {
-      var filter = Builders<User>.Filter.Eq(nameof(User.Login), login);
+      var filter = Builders<User>.Filter.Eq(nameof(User.Email), login);
       return await this.GetMongoCollection()
           .Find(filter)
           .FirstOrDefaultAsync();
     }
 
-    public async Task<bool> CheckLoginExists(string login)
-    {
-      var filter = Builders<User>.Filter.Eq(nameof(User.Login), login);
-      return await this.GetMongoCollection()
-          .Find(filter)
-          .AnyAsync();
-    }
     public async Task<bool> CheckEmailExists(string email)
     {
       var filter = Builders<User>.Filter.Eq(nameof(User.Email), email);

@@ -38,7 +38,7 @@ namespace PizzaHotOnion.Controllers
         {
           Id = order.Id,
           Day = order.Day,
-          Who = order.Who.Login,
+          Who = order.Who.Email,
           Quantity = order.Quantity,
           Room = order.Room.Name
         });
@@ -61,7 +61,7 @@ namespace PizzaHotOnion.Controllers
         Id = order.Id,
         Day = order.Day,
         Quantity = order.Quantity,
-        Who = order.Who.Login,
+        Who = order.Who.Email,
         Room = order.Room.Name
       };
 
@@ -87,7 +87,7 @@ namespace PizzaHotOnion.Controllers
       if (roomEntity == null)
         return BadRequest(string.Format("Room '{0}' does not exist", orderDTO.Room));
 
-      var userEntity = await this.userRepository.GetByLoginAsync(orderDTO.Who);
+      var userEntity = await this.userRepository.GetByEmailAsync(orderDTO.Who);
       if (userEntity == null)
         return BadRequest(string.Format("User '{0}' does not exist", orderDTO.Who));
 

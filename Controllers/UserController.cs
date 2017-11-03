@@ -29,30 +29,22 @@ namespace PizzaHotOnion.Controllers
       if (registerUserDTO == null)
         return BadRequest();
 
-      if (string.IsNullOrWhiteSpace(registerUserDTO.Login))
-        return BadRequest("Login is required");
-
       if (string.IsNullOrWhiteSpace(registerUserDTO.Email))
-        return BadRequest("Login is required");
+        return BadRequest("E-mail is required");
 
       if (string.IsNullOrWhiteSpace(registerUserDTO.Passwd))
         return BadRequest("Password is required");
 
-      if (registerUserDTO.Passwd != registerUserDTO.Passwd2)
-        return BadRequest("Passwords are not equals");
-
       if(registerUserDTO.Passwd.Length < 4)
         return BadRequest("Password is too short");
 
-      if (await this.userRepository.CheckLoginExists(registerUserDTO.Login)
-          || await this.userRepository.CheckEmailExists(registerUserDTO.Email))
-        return BadRequest("User with supplied login or e-mail exists yet");
+      if (await this.userRepository.CheckEmailExists(registerUserDTO.Email))
+        return BadRequest("User with supplied e-mail exists yet");
 
       User user = new User(Guid.NewGuid());
       user.Email = registerUserDTO.Email;
-      user.Login = registerUserDTO.Login;
       user.Passwd = passwordHasher.Hash(
-          registerUserDTO.Login,
+          registerUserDTO.Email,
           registerUserDTO.Passwd
       );
 
@@ -67,8 +59,8 @@ namespace PizzaHotOnion.Controllers
       if (changePasswordDTO == null)
         return BadRequest();
 
-      if (string.IsNullOrWhiteSpace(changePasswordDTO.Login))
-        return BadRequest("Login is required");
+      if (string.IsNullOrWhiteSpace(changePasswordDTO.Email))
+        return BadRequest("E-mail is required");
 
       if (string.IsNullOrWhiteSpace(changePasswordDTO.CurrentPasswd))
         return BadRequest("Password is required");
@@ -82,16 +74,16 @@ namespace PizzaHotOnion.Controllers
       if(changePasswordDTO.Passwd.Length < 4)
         return BadRequest("Password is too short");
 
-      var user = await this.userRepository.GetByLoginAsync(changePasswordDTO.Login);
+      var user = await this.userRepository.GetByEmailAsync(changePasswordDTO.Email);
       if (user == null)
-        return BadRequest("Incorrect login or password");
+        return BadRequest("Incorrect e-mail or password");
 
-      string currentHashedPasswd = this.passwordHasher.Hash(changePasswordDTO.Login, changePasswordDTO.CurrentPasswd);
+      string currentHashedPasswd = this.passwordHasher.Hash(changePasswordDTO.Email, changePasswordDTO.CurrentPasswd);
       if (currentHashedPasswd != user.Passwd)
-        return BadRequest("Incorrect login or password");
+        return BadRequest("Incorrect e-mail or password");
 
       user.Passwd = passwordHasher.Hash(
-          changePasswordDTO.Login,
+          changePasswordDTO.Email,
           changePasswordDTO.Passwd
       );
 

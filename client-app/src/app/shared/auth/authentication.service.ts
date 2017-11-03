@@ -4,11 +4,10 @@ import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 
-import { Config } from "app/shared/config";
+import { Config } from 'app/shared/config';
 import { User } from "./user.model";
 import { ChangePassword } from "./change-password.model";
 import { AuthData } from './auth-data.model';
-import { RegisterUser } from './register-user.model';
 
 @Injectable()
 export class AuthenticationService {
@@ -16,7 +15,7 @@ export class AuthenticationService {
 
   public login(user: User): Observable<AuthData> {
     return this.http.post(
-      Config.apiUrl + "login",
+      Config.apiUrl + "token",
       JSON.stringify({
         username: user.email,
         password: user.password,
@@ -44,27 +43,26 @@ export class AuthenticationService {
     return localStorage.getItem('username');
   }
 
-  changePassword(changePassword: ChangePassword) {
-    return this.http.put(
-      Config.baseUrl + "auth/changepassword",
+  public changePassword(changePassword: ChangePassword) {
+    return this.http.post(
+      Config.apiUrl + "user/changepassword",
       JSON.stringify({
-        username: changePassword.login,
-        currentPassword: changePassword.currentPassword,
-        newPassword: changePassword.newPassword,
-        newPassword2: changePassword.newPassword2,
+        email: changePassword.email,
+        currentPasswd: changePassword.currentPassword,
+        Passwd: changePassword.newPassword,
+        Passwd2: changePassword.newPassword2,
       }),
       { observe: 'response' }
     )
       .catch(this.handleErrors);
   }
     
-  public register(registerUser: RegisterUser) {
+  public register(user: User) {
     return this.http.post(
-      Config.baseUrl + "api/register",
+      Config.apiUrl + "user/register",
       JSON.stringify({
-        email: registerUser.email,
-        password: registerUser.password,
-        password2: registerUser.password2,
+        email: user.email,
+        passwd: user.password
       }),
       { observe: 'response' }
     )

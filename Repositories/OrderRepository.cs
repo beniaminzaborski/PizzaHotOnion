@@ -25,7 +25,7 @@ namespace PizzaHotOnion.Repositories
     {
       var filter = Builders<Order>.Filter.Eq(nameof(Order.Room) + '.' + nameof(Room.Name), room);
       filter = filter & (Builders<Order>.Filter.Eq(nameof(Order.Day), orderDay));
-      filter = filter & (Builders<Order>.Filter.Eq(nameof(Order.Who) + '.' + nameof(User.Login), who));
+      filter = filter & (Builders<Order>.Filter.Eq(nameof(Order.Who) + '.' + nameof(User.Email), who));
       return await this.GetMongoCollection()
           .Find(filter)
           .AnyAsync();

@@ -1,5 +1,5 @@
 export class ChangePassword {
-  login: string;
+  email: string;
   currentPassword: string;
   newPassword: string;
   newPassword2: string

@@ -19,7 +19,7 @@ namespace PizzaHotOnion.Services
 
     public async Task<bool> SignIn(string login, string password)
     {
-      var user = await this.userRepository.GetByLoginAsync(login);
+      var user = await this.userRepository.GetByEmailAsync(login);
       if(user == null)
         return false;
 

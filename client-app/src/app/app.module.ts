@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { AuthGuard } from './shared/auth/auth.guard';
+import { LoginGuard } from './shared/auth/login.guard';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -11,6 +15,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { AboutComponent } from './about/about.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { JsonContentInterceptor } from './shared/json-content.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,9 +30,14 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     BrowserModule,
     RouterModule,
     FormsModule,
+    HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JsonContentInterceptor, multi: true },
+    AuthGuard,
+    LoginGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

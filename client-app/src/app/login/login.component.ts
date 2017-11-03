@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../shared/auth/user.model';
+import { AuthenticationService } from '../shared/auth/authentication.service';
 
 @Component({
   selector: 'app-root',
-  // providers: [AuthenticationService],
+  providers: [AuthenticationService],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -13,8 +14,8 @@ export class LoginComponent {
   isLoggingIn = true;
 
   constructor(
-    public router: Router/*,
-    private authenticationService: AuthenticationService*/) {
+    public router: Router,
+    private authenticationService: AuthenticationService) {
       this.user = new User();
   }
 
@@ -27,26 +28,26 @@ export class LoginComponent {
   }
 
   login() {
-    // this.authenticationService.login(this.user)
-    //   .subscribe(
-    //   () => {
-    //     this.router.navigate(["/order"]);
-    //   },
-    //   (error) => {
-    //     alert("Unfortunately we could not find your account.");
-    //   }
-    //   );
-  }
+    this.authenticationService.login(this.user)
+      .subscribe(
+      () => {
+        this.router.navigate(["/orders"]);
+      },
+      (error) => {
+        alert("Unfortunately we could not find your account.");
+      }
+      );
+  } 
 
   signUp() {
-    // this.authenticationService.register(this.user)
-    //   .subscribe(
-    //   () => {
-    //     alert("Your account was successfully created.");
-    //     this.toggleDisplay();
-    //   },
-    //   () => { alert("Unfortunately we were unable to create your account."); }
-    //   );
+    this.authenticationService.register(this.user)
+      .subscribe(
+      () => {
+        alert("Your account was successfully created.");
+        this.toggleDisplay();
+      },
+      () => { alert("Unfortunately we were unable to create your account."); }
+      );
   }
 
   toggleDisplay() {

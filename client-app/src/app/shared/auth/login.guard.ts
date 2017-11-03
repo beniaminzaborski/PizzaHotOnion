@@ -10,7 +10,7 @@ export class LoginGuard implements CanActivate {
 
   canActivate(): boolean {
     if (this.isLoggedAndNotExpired()) {
-      this.router.navigate(['/role']);
+      this.router.navigate(['/orders']);
       return false;
     }
     return true;
