@@ -6,7 +6,7 @@
   <!-- <div [ngBusy]="{busy: busy, message: 'Proszę czekać...', backdrop: false, delay: 200, minDuration: 600}"></div> -->
   <img src="assets/login_avatar.png" class="profile-img-card" />
   <p id="profile-name" class="profile-name-card"></p>
-  <form class="form-signin" (submit)="submit()">
+  <form class="form-signin" #loginForm="ngForm" (submit)="submit()">
     <span id="reauth-email" class="reauth-email"></span>
     <input type="email" class="form-control" name="email" placeholder="E-mail" [(ngModel)]="user.email" required autofocus>
     <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="user.password" required>
@@ -15,7 +15,7 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>-->
-    <button class="btn btn-lg btn-primary btn-block btn-submit" type="submit">{{isLoggingIn ? 'Sign In' : 'Sign Up'}}</button>
+    <button class="btn btn-lg btn-primary btn-block btn-submit" type="submit" [disabled]="!loginForm.form.valid">{{isLoggingIn ? 'Sign In' : 'Sign Up'}}</button>
     <button class="btn btn-lg btn-primary btn-block btn-toggle" type="button" (click)="toggleDisplay()">{{isLoggingIn ? 'Sign Up' : 'Back to Login'}}</button>
     <div class="error" *ngIf="errorMessage">{{errorMessage}}</div>
   </form>
