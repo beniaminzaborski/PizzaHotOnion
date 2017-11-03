@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { ChartsModule } from 'ng2-charts';
+
 import { AuthGuard } from './shared/auth/auth.guard';
 import { LoginGuard } from './shared/auth/login.guard';
 
@@ -31,6 +33,7 @@ import { JsonContentInterceptor } from './shared/json-content.interceptor';
     RouterModule,
     FormsModule,
     HttpClientModule,
+    ChartsModule,
     AppRoutingModule
   ],
   providers: [
