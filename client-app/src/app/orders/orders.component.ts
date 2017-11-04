@@ -125,6 +125,27 @@ export class OrdersComponent implements OnInit {
     return false;
   }
 
+  public cancel() : boolean {
+    let orderId: string = this.getOrderId();
+
+    this.ordersService.removeOrder(this.selectedRoomName, orderId)
+    .subscribe(result => {
+      if(result)
+        this.loadOrdersInRoom(this.selectedRoomName);
+    });
+    return false;
+  }
+
+  private getOrderId(): string {
+    let orderId: string;
+    this.orderItems.forEach((o) => {
+      if(o.who == this.authenticationService.getLoggedUser()) {
+        orderId = o.id;
+      }
+    });
+    return orderId;
+  }
+  
   public refresh(): boolean {
     this.loadOrdersInRoom(this.selectedRoomName);
     return false;

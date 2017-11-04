@@ -401,7 +401,7 @@ var Order = (function () {
 /***/ "../../../../../src/app/orders/orders.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ngFor=\"let room of rooms\" [ngClass]=\"{ 'active' : room.isActive }\">\r\n    <a href=\"\" (click)=\"selectRoom(room)\">{{room.name}}</a>\r\n  </li>\r\n</ul>\r\n\r\n<div>\r\n  <br>\r\n  <form #orderForm=\"ngForm\" (submit)=\"makeOrder()\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"quantity\">Number of slices</label>\r\n      <input type=\"number\" class=\"form-control\" id=\"quantity\" name=\"quantity\" [(ngModel)]=\"order.Quantity\" required>\r\n    </div>\r\n    <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!orderForm.form.valid\">Grab it!</button>\r\n    <button class=\"btn btn-success\" type=\"button\" (click)=\"refresh()\">Refresh</button>\r\n  </form>\r\n  <br>\r\n</div>\r\n\r\n<div *ngIf=\"pizzas > 0\"><strong>{{slicesToGet}}</strong> slice(s) of <strong>{{pizzas}}</strong> pizza(s) to get</div>\r\n<div *ngIf=\"pizzas == 0\">No orders</div>\r\n\r\n\r\n<!-- <div>Debug: \r\n  <br>order count: {{orderItems.length}}\r\n  <br>slices: {{slices}}\r\n  <br>pizzas: {{pizzas}}\r\n</div> -->\r\n\r\n<!-- <div style=\"display: block\"> -->\r\n<div class=\"col-md-6\" *ngIf=\"pizzas > 0\">\r\n  <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\"\r\n    [colors]=\"pieChartColours\"\r\n    (chartHover)=\"chartHovered($event)\"\r\n    (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div>\r\n<!-- <div style=\"display: block\"> -->\r\n<!-- <div class=\"col-md-6\">\r\n  <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\" (chartHover)=\"chartHovered($event)\"\r\n    (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div> -->"
+module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ngFor=\"let room of rooms\" [ngClass]=\"{ 'active' : room.isActive }\">\r\n    <a href=\"\" (click)=\"selectRoom(room)\">{{room.name}}</a>\r\n  </li>\r\n</ul>\r\n\r\n<div>\r\n  <br>\r\n  <form #orderForm=\"ngForm\" (submit)=\"makeOrder()\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"quantity\">Number of slices</label>\r\n      <input type=\"number\" class=\"form-control\" id=\"quantity\" name=\"quantity\" [(ngModel)]=\"order.Quantity\" required>\r\n    </div>\r\n    <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!orderForm.form.valid\">Grab it!</button>\r\n    <button class=\"btn btn-danger\" type=\"button\" (click)=\"cancel()\">Cancel</button>\r\n    <button class=\"btn btn-success\" type=\"button\" (click)=\"refresh()\">Refresh</button>\r\n  </form>\r\n  <br>\r\n</div>\r\n\r\n<div *ngIf=\"pizzas > 0\"><strong>{{slicesToGet}}</strong> slice(s) of <strong>{{pizzas}}</strong> pizza(s) to get</div>\r\n<div *ngIf=\"pizzas == 0\">No orders</div>\r\n\r\n\r\n<!-- <div>Debug: \r\n  <br>order count: {{orderItems.length}}\r\n  <br>slices: {{slices}}\r\n  <br>pizzas: {{pizzas}}\r\n</div> -->\r\n\r\n<!-- <div style=\"display: block\"> -->\r\n<div class=\"col-md-6\" *ngIf=\"pizzas > 0\">\r\n  <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\"\r\n    [colors]=\"pieChartColours\"\r\n    (chartHover)=\"chartHovered($event)\"\r\n    (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div>\r\n<!-- <div style=\"display: block\"> -->\r\n<!-- <div class=\"col-md-6\">\r\n  <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\" (chartHover)=\"chartHovered($event)\"\r\n    (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div> -->"
 
 /***/ }),
 
@@ -522,6 +522,26 @@ var OrdersComponent = (function () {
         });
         return false;
     };
+    OrdersComponent.prototype.cancel = function () {
+        var _this = this;
+        var orderId = this.getOrderId();
+        this.ordersService.removeOrder(this.selectedRoomName, orderId)
+            .subscribe(function (result) {
+            if (result)
+                _this.loadOrdersInRoom(_this.selectedRoomName);
+        });
+        return false;
+    };
+    OrdersComponent.prototype.getOrderId = function () {
+        var _this = this;
+        var orderId;
+        this.orderItems.forEach(function (o) {
+            if (o.who == _this.authenticationService.getLoggedUser()) {
+                orderId = o.id;
+            }
+        });
+        return orderId;
+    };
     OrdersComponent.prototype.refresh = function () {
         this.loadOrdersInRoom(this.selectedRoomName);
         return false;
@@ -592,6 +612,9 @@ var OrdersService = (function () {
         var body = JSON.stringify(order);
         var room = order.room;
         return this.http.post(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "orders/" + room, body, { observe: 'response' }).map(function (response) { return response.status == 201; });
+    };
+    OrdersService.prototype.removeOrder = function (room, id) {
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "orders/" + room + "/" + id, { observe: 'response' }).map(function (response) { return response.status == 204; });
     };
     return OrdersService;
 }());

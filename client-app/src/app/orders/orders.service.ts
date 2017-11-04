@@ -27,4 +27,10 @@ export class OrdersService {
       `${Config.apiUrl}orders/${room}`, body, { observe: 'response' }
     ).map(response => response.status == 201);
   }
+
+  public removeOrder(room: string, id: string):  Observable<boolean> {
+    return this.http.delete(
+      `${Config.apiUrl}orders/${room}/${id}`, { observe: 'response' }
+    ).map(response => response.status == 204);
+  }
 }

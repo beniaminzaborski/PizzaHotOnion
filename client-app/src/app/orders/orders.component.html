@@ -12,6 +12,7 @@
       <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="order.Quantity" required>
     </div>
     <button class="btn btn-primary btn-submit" type="submit" [disabled]="!orderForm.form.valid">Grab it!</button>
+    <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
     <button class="btn btn-success" type="button" (click)="refresh()">Refresh</button>
   </form>
   <br>
