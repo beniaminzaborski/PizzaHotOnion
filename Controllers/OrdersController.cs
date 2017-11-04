@@ -93,17 +93,20 @@ namespace PizzaHotOnion.Controllers
 
       DateTime orderDay = DateTime.Now.Date;
 
-      if (await this.orderRepository.CheckOrderExists(orderDTO.Room, orderDay, orderDTO.Who))
-        return BadRequest("Order exists");
-
-      Order orderEntity = new Order(Guid.NewGuid());
-      orderEntity.Day = orderDay;
-      orderEntity.Quantity = orderDTO.Quantity;
-      orderEntity.Who = userEntity;
-      orderEntity.Room = roomEntity;
-
-      await this.orderRepository.Add(orderEntity);
-
+      Order orderEntity = await this.orderRepository.GetOrder(orderDTO.Room, orderDay, orderDTO.Who);
+      if(orderEntity == null)
+      {
+        orderEntity = new Order(Guid.NewGuid());
+        orderEntity.Day = orderDay;
+        orderEntity.Who = userEntity;
+        orderEntity.Room = roomEntity;
+        orderEntity.Quantity = orderDTO.Quantity;
+        await this.orderRepository.Add(orderEntity);
+      } else {
+        orderEntity.Quantity = orderDTO.Quantity;
+        await this.orderRepository.Update(orderEntity);
+      }
+    
       return CreatedAtRoute("GetOrder", new { id = orderEntity.Id }, new { });
     }
 

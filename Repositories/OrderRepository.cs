@@ -39,5 +39,15 @@ namespace PizzaHotOnion.Repositories
           .Find(filter)
           .AnyAsync();
     }
+
+    public async Task<Order> GetOrder(string room, DateTime orderDay, string who)
+    {
+      var filter = Builders<Order>.Filter.Eq(nameof(Order.Room) + '.' + nameof(Room.Name), room);
+      filter = filter & (Builders<Order>.Filter.Eq(nameof(Order.Day), orderDay));
+      filter = filter & (Builders<Order>.Filter.Eq(nameof(Order.Who) + '.' + nameof(User.Email), who));
+      return await this.GetMongoCollection()
+          .Find(filter)
+          .FirstOrDefaultAsync();
+    }
   }
 }

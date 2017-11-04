@@ -3,7 +3,7 @@
 <div class="col-xs-12 col-sm-6 offset-sm-3">
   <form #changePasswdForm="ngForm" (submit)="changePassword()">
     <fieldset>
-      <legend>User profile</legend>
+      <legend>User profile of {{model.email}}</legend>
       <div class="form-group">
         <label for="exampleInputEmail1">Current password</label>
         <input type="password" class="form-control" id="currentPassword" name="currentPassword" [(ngModel)]="model.currentPassword"
