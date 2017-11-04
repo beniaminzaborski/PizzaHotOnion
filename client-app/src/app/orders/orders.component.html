@@ -21,22 +21,10 @@
 <div *ngIf="pizzas > 0"><strong>{{slicesToGet}}</strong> slice(s) of <strong>{{pizzas}}</strong> pizza(s) to get</div>
 <div *ngIf="pizzas == 0">No orders</div>
 
-
-<!-- <div>Debug: 
-  <br>order count: {{orderItems.length}}
-  <br>slices: {{slices}}
-  <br>pizzas: {{pizzas}}
-</div> -->
-
-<!-- <div style="display: block"> -->
-<div class="col-md-6" *ngIf="pizzas > 0">
+<!-- <div style="display: block" *ngIf="pizzas > 0"> -->
+<div class="col-md-10" *ngIf="pizzas > 0">
   <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
     [colors]="pieChartColours"
     (chartHover)="chartHovered($event)"
     (chartClick)="chartClicked($event)"></canvas>
 </div>
-<!-- <div style="display: block"> -->
-<!-- <div class="col-md-6">
-  <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
-    (chartClick)="chartClicked($event)"></canvas>
-</div> -->
