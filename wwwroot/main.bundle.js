@@ -218,12 +218,14 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__about_about_component__ = __webpack_require__("../../../../../src/app/about/about.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__user_profile_user_profile_component__ = __webpack_require__("../../../../../src/app/user-profile/user-profile.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shared_json_content_interceptor__ = __webpack_require__("../../../../../src/app/shared/json-content.interceptor.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__shared_auth_auth_interceptor__ = __webpack_require__("../../../../../src/app/shared/auth/auth.interceptor.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -265,6 +267,7 @@ AppModule = __decorate([
         ],
         providers: [
             { provide: __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["a" /* HTTP_INTERCEPTORS */], useClass: __WEBPACK_IMPORTED_MODULE_15__shared_json_content_interceptor__["a" /* JsonContentInterceptor */], multi: true },
+            { provide: __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["a" /* HTTP_INTERCEPTORS */], useClass: __WEBPACK_IMPORTED_MODULE_16__shared_auth_auth_interceptor__["a" /* AuthInterceptor */], multi: true },
             __WEBPACK_IMPORTED_MODULE_6__shared_auth_auth_guard__["a" /* AuthGuard */],
             __WEBPACK_IMPORTED_MODULE_7__shared_auth_login_guard__["a" /* LoginGuard */]
         ],
@@ -380,10 +383,25 @@ var _a, _b;
 
 /***/ }),
 
+/***/ "../../../../../src/app/orders/order.model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Order; });
+var Order = (function () {
+    function Order() {
+    }
+    return Order;
+}());
+
+//# sourceMappingURL=order.model.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/orders/orders.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <div style=\"display: block\"> -->\r\n<div class=\"col-md-6\">\r\n  <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\" (chartHover)=\"chartHovered($event)\"\r\n    (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div>\r\n<!-- <div style=\"display: block\"> -->\r\n<div class=\"col-md-6\">\r\n  <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\" (chartHover)=\"chartHovered($event)\"\r\n    (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div>"
+module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ngFor=\"let room of rooms\" [ngClass]=\"{ 'active' : room.isActive }\">\r\n    <a href=\"\" (click)=\"selectRoom(room)\">{{room.name}}</a>\r\n  </li>\r\n</ul>\r\n\r\n<div>\r\n  <br>\r\n  <form #orderForm=\"ngForm\" (submit)=\"makeOrder()\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"quantity\">Number of slices</label>\r\n      <input type=\"number\" class=\"form-control\" id=\"quantity\" name=\"quantity\" [(ngModel)]=\"order.Quantity\" required>\r\n    </div>\r\n    <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!orderForm.form.valid\">Grab it!</button>\r\n    <button class=\"btn btn-success\" type=\"button\" (click)=\"refresh()\">Refresh</button>\r\n  </form>\r\n  <br>\r\n</div>\r\n\r\n<div *ngIf=\"pizzas > 0\">{{slicesToGet}} slice(s) of {{pizzas}} pizza(s) to get</div>\r\n<div *ngIf=\"pizzas == 0\">No orders</div>\r\n\r\n\r\n<!-- <div>Debug: \r\n  <br>order count: {{orderItems.length}}\r\n  <br>slices: {{slices}}\r\n  <br>pizzas: {{pizzas}}\r\n</div> -->\r\n\r\n<!-- <div style=\"display: block\"> -->\r\n<div class=\"col-md-6\" *ngIf=\"pizzas > 0\">\r\n  <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\"\r\n    [colors]=\"pieChartColours\"\r\n    (chartHover)=\"chartHovered($event)\"\r\n    (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div>\r\n<!-- <div style=\"display: block\"> -->\r\n<!-- <div class=\"col-md-6\">\r\n  <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\" (chartHover)=\"chartHovered($event)\"\r\n    (chartClick)=\"chartClicked($event)\"></canvas>\r\n</div> -->"
 
 /***/ }),
 
@@ -394,6 +412,12 @@ module.exports = "<!-- <div style=\"display: block\"> -->\r\n<div class=\"col-md
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrdersComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rooms_rooms_service__ = __webpack_require__("../../../../../src/app/rooms/rooms.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__order_model__ = __webpack_require__("../../../../../src/app/orders/order.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_auth_authentication_service__ = __webpack_require__("../../../../../src/app/shared/auth/authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__orders_service__ = __webpack_require__("../../../../../src/app/orders/orders.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_charts__ = __webpack_require__("../../../../ng2-charts/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_charts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_charts__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -405,16 +429,103 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
+
+
+
 var OrdersComponent = (function () {
-    function OrdersComponent(router /*,
-        private authenticationService: AuthenticationService*/) {
-        this.router = router; /*,
-        private authenticationService: AuthenticationService*/
+    function OrdersComponent(router, roomService, ordersService, authenticationService) {
+        this.router = router;
+        this.roomService = roomService;
+        this.ordersService = ordersService;
+        this.authenticationService = authenticationService;
+        this.rooms = [];
+        this.orderItems = [];
+        this.slices = 0;
+        this.pizzas = 0;
+        this.slicesToGet = 0;
         // Pie
-        this.pieChartLabels = ['B.Z.', 'P.P', 'P.W.', ''];
-        this.pieChartData = [1, 2, 2, 3];
+        this.pieChartLabels = []; //['BZ', 'JT', 'JT', 'FREE', 'FREE', 'FREE', 'FREE', 'FREE'];
+        this.pieChartData = []; //[1, 1, 1, 1, 1, 1, 1, 1];
+        this.pieChartColours = [{ backgroundColor: ["#FFA1B5", "#7B68EE", "#87CEFA", "#B22222", "#FFE29A", "#D2B48C", "#90EE90", "#FF69B4", "#EE82EE", "#6A5ACD", "#b8436d", "#9ACD32", "#00d9f9", "#800080", "#FF6347", "#DDA0DD", "#a4c73c", "#a4add3", "#008000", "#DAA520", "#00BFFF", "#2F4F4F", "#FF8C00", "#A9A9A9", "#FFB6C1", "#00FFFF", "#6495ED", "#7FFFD4", "#F0F8FF", "#7FFF00", "#008B8B", "#9932CC", "#E9967A", "#8FBC8F", "#483D8B", "#D3D3D3", "#ADD8E6"] }];
         this.pieChartType = 'pie';
+        this.order = new __WEBPACK_IMPORTED_MODULE_3__order_model__["a" /* Order */]();
+        this.order.quantity = 1;
+        this.order.who = this.authenticationService.getLoggedUser();
     }
+    OrdersComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.roomService.getRooms()
+            .subscribe(function (rooms) { return _this.onLoadRooms(rooms); });
+    };
+    OrdersComponent.prototype.onLoadRooms = function (rooms) {
+        this.rooms = rooms;
+        if (rooms.length > 1)
+            this.selectRoom(rooms[0]);
+    };
+    OrdersComponent.prototype.selectRoom = function (room) {
+        this.rooms.forEach(function (r) {
+            r.isActive = false;
+        });
+        room.isActive = true;
+        this.selectedRoomName = room.name;
+        this.order.room = room.name;
+        this.loadOrdersInRoom(this.selectedRoomName);
+        return false;
+    };
+    OrdersComponent.prototype.loadOrdersInRoom = function (roomName) {
+        var _this = this;
+        this.ordersService.getOrders(roomName)
+            .subscribe(function (orderItems) { return _this.onLoadOrderItems(orderItems); });
+    };
+    OrdersComponent.prototype.onLoadOrderItems = function (orderItems) {
+        this.orderItems = orderItems;
+        this.slices = 0;
+        this.pizzas = 0;
+        this.preparePizzaChart();
+    };
+    OrdersComponent.prototype.preparePizzaChart = function () {
+        var _this = this;
+        var pieChartLabels = [];
+        var pieChartData = [];
+        this.orderItems.forEach(function (o) {
+            _this.slices += o.quantity;
+            pieChartLabels.push(o.who);
+            pieChartData.push(o.quantity);
+        });
+        this.pizzas = Math.ceil(this.slices / 8);
+        if (this.pizzas == 0)
+            return;
+        this.slicesToGet = (this.pizzas * 8) - this.slices;
+        if (this.slicesToGet > 0) {
+            pieChartLabels.push('FREE');
+            pieChartData.push(this.slicesToGet);
+        }
+        this.pieChartLabels = pieChartLabels;
+        this.pieChartData = pieChartData;
+        setTimeout(function () {
+            if (_this.chart && _this.chart.chart && _this.chart.chart.config) {
+                _this.chart.chart.config.data.labels = _this.pieChartLabels;
+                //this.chart.chart.config.data.datasets = this.pieChartData;
+                _this.chart.chart.config.data.colors = _this.pieChartColours;
+                _this.chart.chart.update();
+            }
+        });
+    };
+    OrdersComponent.prototype.makeOrder = function () {
+        var _this = this;
+        this.ordersService.makeOrder(this.order)
+            .subscribe(function (result) {
+            if (result)
+                _this.loadOrdersInRoom(_this.selectedRoomName);
+        });
+        return false;
+    };
+    OrdersComponent.prototype.refresh = function () {
+        this.loadOrdersInRoom(this.selectedRoomName);
+        return false;
+    };
     // events
     OrdersComponent.prototype.chartClicked = function (e) {
         console.log(e);
@@ -424,18 +535,73 @@ var OrdersComponent = (function () {
     };
     return OrdersComponent;
 }());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_6_ng2_charts__["BaseChartDirective"]),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_6_ng2_charts__["BaseChartDirective"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6_ng2_charts__["BaseChartDirective"]) === "function" && _a || Object)
+], OrdersComponent.prototype, "chart", void 0);
 OrdersComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-root',
+        providers: [
+            __WEBPACK_IMPORTED_MODULE_2__rooms_rooms_service__["a" /* RoomService */],
+            __WEBPACK_IMPORTED_MODULE_5__orders_service__["a" /* OrdersService */],
+            __WEBPACK_IMPORTED_MODULE_4__shared_auth_authentication_service__["a" /* AuthenticationService */]
+        ],
         template: __webpack_require__("../../../../../src/app/orders/orders.component.html")
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] /*,
-        private authenticationService: AuthenticationService*/ !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] /*,
-        private authenticationService: AuthenticationService*/) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__rooms_rooms_service__["a" /* RoomService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__rooms_rooms_service__["a" /* RoomService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__orders_service__["a" /* OrdersService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__orders_service__["a" /* OrdersService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__shared_auth_authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__shared_auth_authentication_service__["a" /* AuthenticationService */]) === "function" && _e || Object])
 ], OrdersComponent);
 
-var _a;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=orders.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/orders/orders.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrdersService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_do__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/do.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_config__ = __webpack_require__("../../../../../src/app/shared/config.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var OrdersService = (function () {
+    function OrdersService(http) {
+        this.http = http;
+    }
+    OrdersService.prototype.getOrders = function (room) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "orders/" + room);
+    };
+    OrdersService.prototype.makeOrder = function (order) {
+        var body = JSON.stringify(order);
+        var room = order.room;
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "orders/" + room, body, { observe: 'response' }).map(function (response) { return response.status == 201; });
+    };
+    return OrdersService;
+}());
+OrdersService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _a || Object])
+], OrdersService);
+
+var _a;
+//# sourceMappingURL=orders.service.js.map
 
 /***/ }),
 
@@ -487,6 +653,49 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/rooms/rooms.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RoomService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_do__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/do.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_config__ = __webpack_require__("../../../../../src/app/shared/config.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var RoomService = (function () {
+    function RoomService(http) {
+        this.http = http;
+    }
+    RoomService.prototype.getRooms = function () {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "rooms");
+    };
+    return RoomService;
+}());
+RoomService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]) === "function" && _a || Object])
+], RoomService);
+
+var _a;
+//# sourceMappingURL=rooms.service.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/auth/auth.guard.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -532,6 +741,42 @@ AuthGuard = __decorate([
 
 var _a;
 //# sourceMappingURL=auth.guard.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/auth/auth.interceptor.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthInterceptor; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var AuthInterceptor = (function () {
+    function AuthInterceptor() {
+    }
+    AuthInterceptor.prototype.intercept = function (req, next) {
+        var token = localStorage.getItem('token');
+        if (!token)
+            return next.handle(req);
+        var authReq = req.clone({
+            headers: req.headers
+                .set('Authorization', "Bearer " + token)
+        });
+        return next.handle(authReq);
+    };
+    return AuthInterceptor;
+}());
+AuthInterceptor = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])()
+], AuthInterceptor);
+
+//# sourceMappingURL=auth.interceptor.js.map
 
 /***/ }),
 

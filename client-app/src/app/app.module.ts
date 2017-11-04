@@ -18,6 +18,7 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { AboutComponent } from './about/about.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { JsonContentInterceptor } from './shared/json-content.interceptor';
+import { AuthInterceptor } from './shared/auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { JsonContentInterceptor } from './shared/json-content.interceptor';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JsonContentInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthGuard,
     LoginGuard
   ],

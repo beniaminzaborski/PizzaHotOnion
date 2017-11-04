@@ -1,10 +1,41 @@
+<ul class="nav nav-tabs">
+  <li role="presentation" *ngFor="let room of rooms" [ngClass]="{ 'active' : room.isActive }">
+    <a href="" (click)="selectRoom(room)">{{room.name}}</a>
+  </li>
+</ul>
+
+<div>
+  <br>
+  <form #orderForm="ngForm" (submit)="makeOrder()" class="form-inline">
+    <div class="form-group">
+      <label for="quantity">Number of slices</label>
+      <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="order.Quantity" required>
+    </div>
+    <button class="btn btn-primary btn-submit" type="submit" [disabled]="!orderForm.form.valid">Grab it!</button>
+    <button class="btn btn-success" type="button" (click)="refresh()">Refresh</button>
+  </form>
+  <br>
+</div>
+
+<div *ngIf="pizzas > 0">{{slicesToGet}} slice(s) of {{pizzas}} pizza(s) to get</div>
+<div *ngIf="pizzas == 0">No orders</div>
+
+
+<!-- <div>Debug: 
+  <br>order count: {{orderItems.length}}
+  <br>slices: {{slices}}
+  <br>pizzas: {{pizzas}}
+</div> -->
+
 <!-- <div style="display: block"> -->
-<div class="col-md-6">
-  <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+<div class="col-md-6" *ngIf="pizzas > 0">
+  <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+    [colors]="pieChartColours"
+    (chartHover)="chartHovered($event)"
     (chartClick)="chartClicked($event)"></canvas>
 </div>
 <!-- <div style="display: block"> -->
-<div class="col-md-6">
+<!-- <div class="col-md-6">
   <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
     (chartClick)="chartClicked($event)"></canvas>
-</div>
+</div> -->
