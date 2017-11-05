@@ -628,10 +628,25 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/rooms/room.model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Room; });
+var Room = (function () {
+    function Room() {
+    }
+    return Room;
+}());
+
+//# sourceMappingURL=room.model.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/rooms/rooms.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Rooms component</h1>"
+module.exports = "<div>\r\n  <br>\r\n  <form #roomForm=\"ngForm\" (submit)=\"addRoom()\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"name\">Room name</label>\r\n      <input type=\"text\" class=\"form-control\" id=\"name\" name=\"name\" [(ngModel)]=\"room.name\" required>\r\n    </div>\r\n    <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!roomForm.form.valid\">Add</button>\r\n  </form>\r\n  <br>\r\n</div>\r\n\r\n<ul class=\"list-group\">\r\n  <li class=\"list-group-item\" *ngFor=\"let room of rooms\">{{room.name}}\r\n  </li>\r\n</ul>"
 
 /***/ }),
 
@@ -642,6 +657,8 @@ module.exports = "<h1>Rooms component</h1>"
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RoomsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__room_model__ = __webpack_require__("../../../../../src/app/rooms/room.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__rooms_service__ = __webpack_require__("../../../../../src/app/rooms/rooms.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -653,25 +670,47 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var RoomsComponent = (function () {
-    function RoomsComponent(router /*,
-        private authenticationService: AuthenticationService*/) {
-        this.router = router; /*,
-        private authenticationService: AuthenticationService*/
+    function RoomsComponent(router, roomService) {
+        this.router = router;
+        this.roomService = roomService;
+        this.rooms = [];
+        this.room = new __WEBPACK_IMPORTED_MODULE_2__room_model__["a" /* Room */]();
     }
+    RoomsComponent.prototype.ngOnInit = function () {
+        this.loadRooms();
+    };
+    RoomsComponent.prototype.loadRooms = function () {
+        var _this = this;
+        this.roomService.getRooms()
+            .subscribe(function (rooms) { return _this.rooms = rooms; });
+    };
+    RoomsComponent.prototype.addRoom = function () {
+        var _this = this;
+        this.roomService.addRoom(this.room)
+            .subscribe(function (result) {
+            if (result) {
+                _this.room.name = '';
+                _this.loadRooms();
+            }
+        });
+    };
     return RoomsComponent;
 }());
 RoomsComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-root',
+        providers: [
+            __WEBPACK_IMPORTED_MODULE_3__rooms_service__["a" /* RoomService */]
+        ],
         template: __webpack_require__("../../../../../src/app/rooms/rooms.component.html")
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] /*,
-        private authenticationService: AuthenticationService*/ !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] /*,
-        private authenticationService: AuthenticationService*/) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__rooms_service__["a" /* RoomService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__rooms_service__["a" /* RoomService */]) === "function" && _b || Object])
 ], RoomsComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=rooms.component.js.map
 
 /***/ }),
@@ -706,6 +745,10 @@ var RoomService = (function () {
     }
     RoomService.prototype.getRooms = function () {
         return this.http.get(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "rooms");
+    };
+    RoomService.prototype.addRoom = function (room) {
+        var body = JSON.stringify(room);
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "rooms", body, { observe: 'response' }).map(function (response) { return response.status == 201; });
     };
     return RoomService;
 }());

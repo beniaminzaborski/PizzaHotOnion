@@ -1,1 +1,16 @@
-<h1>Rooms component</h1>
+<div>
+  <br>
+  <form #roomForm="ngForm" (submit)="addRoom()" class="form-inline">
+    <div class="form-group">
+      <label for="name">Room name</label>
+      <input type="text" class="form-control" id="name" name="name" [(ngModel)]="room.name" required>
+    </div>
+    <button class="btn btn-primary btn-submit" type="submit" [disabled]="!roomForm.form.valid">Add</button>
+  </form>
+  <br>
+</div>
+
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let room of rooms">{{room.name}}
+  </li>
+</ul>

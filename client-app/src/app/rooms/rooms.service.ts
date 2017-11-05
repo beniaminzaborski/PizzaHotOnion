@@ -16,4 +16,12 @@ export class RoomService {
     return this.http.get<Room[]>(
       `${Config.apiUrl}rooms`);
   }
+
+  public addRoom(room: Room): Observable<boolean> {
+    let body = JSON.stringify(room);
+
+    return this.http.post(
+      `${Config.apiUrl}rooms`, body, { observe: 'response' }
+    ).map(response => response.status == 201);
+  }
 }
