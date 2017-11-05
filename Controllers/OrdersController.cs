@@ -30,8 +30,9 @@ namespace PizzaHotOnion.Controllers
     public async Task<IEnumerable<OrderDTO>> GetAll(string room)
     {
       IList<OrderDTO> result = new List<OrderDTO>();
+      DateTime orderDay = DateTime.Now.Date;
 
-      var orders = await this.orderRepository.GetAllInRoom(room);
+      var orders = await this.orderRepository.GetAllInRoom(room, orderDay);
 
       foreach (var order in orders)
         result.Add(new OrderDTO

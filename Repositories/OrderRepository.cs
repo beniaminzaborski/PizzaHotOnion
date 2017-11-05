@@ -13,9 +13,10 @@ namespace PizzaHotOnion.Repositories
   {
     public OrderRepository(IOptions<Settings> settings) : base(settings) { }
 
-    public async Task<IEnumerable<Order>> GetAllInRoom(string room)
+    public async Task<IEnumerable<Order>> GetAllInRoom(string room, DateTime orderDay)
     {
       var filter = Builders<Order>.Filter.Eq(nameof(Order.Room) + '.' + nameof(Room.Name), room);
+      filter = filter & (Builders<Order>.Filter.Eq(nameof(Order.Day), orderDay));
       return await this.GetMongoCollection()
           .Find(filter)
           .ToListAsync();
