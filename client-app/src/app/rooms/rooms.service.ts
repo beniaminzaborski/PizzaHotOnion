@@ -24,4 +24,10 @@ export class RoomService {
       `${Config.apiUrl}rooms`, body, { observe: 'response' }
     ).map(response => response.status == 201);
   }
+
+  public removeRoom(room: string):  Observable<boolean> {
+    return this.http.delete(
+      `${Config.apiUrl}rooms/${room}`, { observe: 'response' }
+    ).map(response => response.status == 204);
+  }
 }

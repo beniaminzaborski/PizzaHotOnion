@@ -14,6 +14,7 @@ export class RoomsComponent implements OnInit {
   
   public room: Room;
   public rooms: Room[] = [];
+  public selectedRoom: Room = null;
 
   constructor(
     public router: Router,
@@ -38,5 +39,24 @@ export class RoomsComponent implements OnInit {
           this.loadRooms();
         }
       });
+  }
+
+  public selectRoom(room: Room): boolean {
+    this.selectedRoom = room;
+    return false;
+  }
+
+  public removeRoom(): boolean {
+    if(!this.selectedRoom)
+      return false;
+
+    this.roomService.removeRoom(this.selectedRoom.name)
+    .subscribe(result => {
+      if(result) {
+        this.selectedRoom = null;
+        this.loadRooms();
+      }
+    });
+    return false;
   }
 }

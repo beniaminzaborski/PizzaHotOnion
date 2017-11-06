@@ -646,7 +646,7 @@ var Room = (function () {
 /***/ "../../../../../src/app/rooms/rooms.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <br>\r\n  <form #roomForm=\"ngForm\" (submit)=\"addRoom()\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"name\">Room name</label>\r\n      <input type=\"text\" class=\"form-control\" id=\"name\" name=\"name\" [(ngModel)]=\"room.name\" required>\r\n    </div>\r\n    <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!roomForm.form.valid\">Add</button>\r\n  </form>\r\n  <br>\r\n</div>\r\n\r\n<ul class=\"list-group\">\r\n  <li class=\"list-group-item\" *ngFor=\"let room of rooms\">{{room.name}}\r\n  </li>\r\n</ul>"
+module.exports = "<div>\r\n  <br>\r\n  <form #roomForm=\"ngForm\" (submit)=\"addRoom()\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"name\">Room name</label>\r\n      <input type=\"text\" class=\"form-control\" id=\"name\" name=\"name\" [(ngModel)]=\"room.name\" required>\r\n    </div>\r\n    <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!roomForm.form.valid\">Add</button>\r\n    <button class=\"btn btn-danger\" type=\"button\" [disabled]=\"!selectedRoom\" (click)=\"removeRoom()\">Remove selected</button>\r\n  </form>\r\n  <br>\r\n</div>\r\n\r\n<div class=\"list-group\">\r\n  <a href=\"#\" class=\"list-group-item\" *ngFor=\"let room of rooms\" (click)=\"selectRoom(room)\" \r\n    [ngClass]=\"{ 'active' : selectedRoom?.name == room.name }\">{{room.name}}</a>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -677,6 +677,7 @@ var RoomsComponent = (function () {
         this.router = router;
         this.roomService = roomService;
         this.rooms = [];
+        this.selectedRoom = null;
         this.room = new __WEBPACK_IMPORTED_MODULE_2__room_model__["a" /* Room */]();
     }
     RoomsComponent.prototype.ngOnInit = function () {
@@ -696,6 +697,23 @@ var RoomsComponent = (function () {
                 _this.loadRooms();
             }
         });
+    };
+    RoomsComponent.prototype.selectRoom = function (room) {
+        this.selectedRoom = room;
+        return false;
+    };
+    RoomsComponent.prototype.removeRoom = function () {
+        var _this = this;
+        if (!this.selectedRoom)
+            return false;
+        this.roomService.removeRoom(this.selectedRoom.name)
+            .subscribe(function (result) {
+            if (result) {
+                _this.selectedRoom = null;
+                _this.loadRooms();
+            }
+        });
+        return false;
     };
     return RoomsComponent;
 }());
@@ -749,6 +767,9 @@ var RoomService = (function () {
     RoomService.prototype.addRoom = function (room) {
         var body = JSON.stringify(room);
         return this.http.post(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "rooms", body, { observe: 'response' }).map(function (response) { return response.status == 201; });
+    };
+    RoomService.prototype.removeRoom = function (room) {
+        return this.http.delete(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "rooms/" + room, { observe: 'response' }).map(function (response) { return response.status == 204; });
     };
     return RoomService;
 }());
