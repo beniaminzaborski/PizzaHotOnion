@@ -72,7 +72,10 @@ export class OrdersComponent implements OnInit {
 
   private loadOrdersInRoom(roomName: string) {
     this.ordersService.getOrders(roomName)
-      .subscribe(orderItems => this.onLoadOrderItems(orderItems));
+      .subscribe(
+        orderItems => this.onLoadOrderItems(orderItems),
+        error => alert(error)
+      );
   }
 
   private onLoadOrderItems(orderItems: OrderItem[]): void {
@@ -121,7 +124,8 @@ export class OrdersComponent implements OnInit {
     .subscribe(result => {
       if(result)
         this.loadOrdersInRoom(this.selectedRoomName);
-    });
+    },
+    error => alert(error));
     return false;
   }
 
@@ -132,7 +136,8 @@ export class OrdersComponent implements OnInit {
     .subscribe(result => {
       if(result)
         this.loadOrdersInRoom(this.selectedRoomName);
-    });
+    },
+    error => alert(error));
     return false;
   }
 

@@ -477,7 +477,7 @@ var OrdersComponent = (function () {
     OrdersComponent.prototype.loadOrdersInRoom = function (roomName) {
         var _this = this;
         this.ordersService.getOrders(roomName)
-            .subscribe(function (orderItems) { return _this.onLoadOrderItems(orderItems); });
+            .subscribe(function (orderItems) { return _this.onLoadOrderItems(orderItems); }, function (error) { return alert(error); });
     };
     OrdersComponent.prototype.onLoadOrderItems = function (orderItems) {
         this.orderItems = orderItems;
@@ -519,7 +519,7 @@ var OrdersComponent = (function () {
             .subscribe(function (result) {
             if (result)
                 _this.loadOrdersInRoom(_this.selectedRoomName);
-        });
+        }, function (error) { return alert(error); });
         return false;
     };
     OrdersComponent.prototype.cancel = function () {
@@ -529,7 +529,7 @@ var OrdersComponent = (function () {
             .subscribe(function (result) {
             if (result)
                 _this.loadOrdersInRoom(_this.selectedRoomName);
-        });
+        }, function (error) { return alert(error); });
         return false;
     };
     OrdersComponent.prototype.getOrderId = function () {
@@ -686,7 +686,7 @@ var RoomsComponent = (function () {
     RoomsComponent.prototype.loadRooms = function () {
         var _this = this;
         this.roomService.getRooms()
-            .subscribe(function (rooms) { return _this.rooms = rooms; });
+            .subscribe(function (rooms) { return _this.rooms = rooms; }, function (error) { return alert(error); });
     };
     RoomsComponent.prototype.addRoom = function () {
         var _this = this;
@@ -694,12 +694,16 @@ var RoomsComponent = (function () {
             .subscribe(function (result) {
             if (result) {
                 _this.room.name = '';
+                _this.selectedRoom = null;
                 _this.loadRooms();
             }
-        });
+        }, function (error) { return alert(error); });
     };
     RoomsComponent.prototype.selectRoom = function (room) {
-        this.selectedRoom = room;
+        if (this.selectedRoom == room)
+            this.selectedRoom = null;
+        else
+            this.selectedRoom = room;
         return false;
     };
     RoomsComponent.prototype.removeRoom = function () {
@@ -712,7 +716,7 @@ var RoomsComponent = (function () {
                 _this.selectedRoom = null;
                 _this.loadRooms();
             }
-        });
+        }, function (error) { return alert(error); });
         return false;
     };
     return RoomsComponent;

@@ -28,7 +28,9 @@ export class RoomsComponent implements OnInit {
 
   private loadRooms(): void {
     this.roomService.getRooms()
-      .subscribe(rooms => this.rooms = rooms);
+      .subscribe(
+        rooms => this.rooms = rooms,
+        error => alert(error));
   }
 
   public addRoom(): void {
@@ -36,13 +38,18 @@ export class RoomsComponent implements OnInit {
       .subscribe(result => {
         if(result) {
           this.room.name = '';
+          this.selectedRoom = null;
           this.loadRooms();
         }
-      });
+      },
+      error => alert(error));
   }
 
   public selectRoom(room: Room): boolean {
-    this.selectedRoom = room;
+    if(this.selectedRoom == room)
+      this.selectedRoom = null;
+    else
+      this.selectedRoom = room;
     return false;
   }
 
@@ -56,7 +63,8 @@ export class RoomsComponent implements OnInit {
         this.selectedRoom = null;
         this.loadRooms();
       }
-    });
+    },
+    error => alert(error));
     return false;
   }
 }
