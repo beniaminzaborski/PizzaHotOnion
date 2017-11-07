@@ -464,7 +464,7 @@ var OrdersComponent = (function () {
     };
     OrdersComponent.prototype.onLoadRooms = function (rooms) {
         this.rooms = rooms;
-        if (rooms.length > 1)
+        if (rooms.length > 0)
             this.selectRoom(rooms[0]);
     };
     OrdersComponent.prototype.selectRoom = function (room) {

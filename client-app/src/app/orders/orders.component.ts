@@ -52,7 +52,7 @@ export class OrdersComponent implements OnInit {
 
   private onLoadRooms(rooms: Room[]): void {
     this.rooms = rooms;
-    if (rooms.length > 1)
+    if (rooms.length > 0)
       this.selectRoom(rooms[0]);
   }
 
