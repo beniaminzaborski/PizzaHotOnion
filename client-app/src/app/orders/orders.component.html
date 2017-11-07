@@ -9,7 +9,7 @@
   <form #orderForm="ngForm" (submit)="makeOrder()" class="form-inline">
     <div class="form-group">
       <label for="quantity">Number of slices</label>
-      <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="order.Quantity" required>
+      <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="order.quantity" required>
     </div>
     <button class="btn btn-primary btn-submit" type="submit" [disabled]="!orderForm.form.valid">Grab it!</button>
     <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
