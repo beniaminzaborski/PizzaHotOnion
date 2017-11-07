@@ -4,27 +4,33 @@
   </li>
 </ul>
 
-<div>
-  <br>
-  <form #orderForm="ngForm" (submit)="makeOrder()" class="form-inline">
-    <div class="form-group">
-      <label for="quantity">Number of slices</label>
-      <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="order.quantity" required>
-    </div>
-    <button class="btn btn-primary btn-submit" type="submit" [disabled]="!orderForm.form.valid">Grab it!</button>
-    <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
-    <button class="btn btn-success" type="button" (click)="refresh()">Refresh</button>
-  </form>
-  <br>
+<div *ngIf="selectedRoomName">
+  <div>
+    <br>
+    <form #orderForm="ngForm" (submit)="makeOrder()" class="form-inline">
+      <div class="form-group">
+        <label for="quantity">Number of slices</label>
+        <input type="number" class="form-control" id="quantity" name="quantity" [(ngModel)]="order.quantity" required>
+      </div>
+      <button class="btn btn-primary btn-submit" type="submit" [disabled]="!orderForm.form.valid">Grab it!</button>
+      <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
+      <button class="btn btn-success" type="button" (click)="refresh()">Refresh</button>
+    </form>
+    <br>
+  </div>
+
+  <div *ngIf="pizzas > 0"><strong>{{slicesToGet}}</strong> slice(s) of <strong>{{pizzas}}</strong> pizza(s) to get</div>
+  <div *ngIf="pizzas == 0">No orders</div>
+
+  <!-- <div style="display: block" *ngIf="pizzas > 0"> -->
+  <div class="col-md-10" *ngIf="pizzas > 0">
+    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+      [colors]="pieChartColours"
+      (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)"></canvas>
+  </div>
 </div>
 
-<div *ngIf="pizzas > 0"><strong>{{slicesToGet}}</strong> slice(s) of <strong>{{pizzas}}</strong> pizza(s) to get</div>
-<div *ngIf="pizzas == 0">No orders</div>
-
-<!-- <div style="display: block" *ngIf="pizzas > 0"> -->
-<div class="col-md-10" *ngIf="pizzas > 0">
-  <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
-    [colors]="pieChartColours"
-    (chartHover)="chartHovered($event)"
-    (chartClick)="chartClicked($event)"></canvas>
+<div *ngIf="!selectedRoomName">
+  <h3>Choose your room</h3>
 </div>
