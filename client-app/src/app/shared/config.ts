@@ -1,5 +1,7 @@
+import { environment } from "../../environments/environment";
+
 export class Config {
-  static baseUrl = "http://localhost:8666/";
+  static baseUrl = environment.restBaseUrl;
   static apiUrl = Config.baseUrl + "api/";
 
   static title = "Hot Onion";
