@@ -22,7 +22,7 @@ export class OrdersComponent implements OnInit {
   public rooms: Room[] = [];
   public order: Order;
   public orderItems: OrderItem[] = [];
-  private selectedRoomName: string;
+  public selectedRoomName: string;
   public slices: number = 0;
   public pizzas: number = 0;
   public slicesToGet: number = 0;
