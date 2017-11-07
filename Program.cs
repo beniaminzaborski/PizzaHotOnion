@@ -28,7 +28,7 @@ namespace PizzaHotOnion
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://*:8666")
+                .UseUrls("http://localhost:8666")
                 .Build();
     }
 }
