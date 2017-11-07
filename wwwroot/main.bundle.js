@@ -219,12 +219,14 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__user_profile_user_profile_component__ = __webpack_require__("../../../../../src/app/user-profile/user-profile.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shared_json_content_interceptor__ = __webpack_require__("../../../../../src/app/shared/json-content.interceptor.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__shared_auth_auth_interceptor__ = __webpack_require__("../../../../../src/app/shared/auth/auth.interceptor.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__shared_auth_unauthorized_interceptor__ = __webpack_require__("../../../../../src/app/shared/auth/unauthorized.interceptor.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -266,6 +268,7 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_8__app_routing_module__["a" /* AppRoutingModule */]
         ],
         providers: [
+            { provide: __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["a" /* HTTP_INTERCEPTORS */], useClass: __WEBPACK_IMPORTED_MODULE_17__shared_auth_unauthorized_interceptor__["a" /* UnauthorizedInterceptor */], multi: true },
             { provide: __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["a" /* HTTP_INTERCEPTORS */], useClass: __WEBPACK_IMPORTED_MODULE_15__shared_json_content_interceptor__["a" /* JsonContentInterceptor */], multi: true },
             { provide: __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["a" /* HTTP_INTERCEPTORS */], useClass: __WEBPACK_IMPORTED_MODULE_16__shared_auth_auth_interceptor__["a" /* AuthInterceptor */], multi: true },
             __WEBPACK_IMPORTED_MODULE_6__shared_auth_auth_guard__["a" /* AuthGuard */],
@@ -1113,6 +1116,58 @@ LoginGuard = __decorate([
 
 var _a;
 //# sourceMappingURL=login.guard.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/auth/unauthorized.interceptor.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UnauthorizedInterceptor; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var UnauthorizedInterceptor = (function () {
+    function UnauthorizedInterceptor(router) {
+        this.router = router;
+    }
+    UnauthorizedInterceptor.prototype.intercept = function (req, next) {
+        var _this = this;
+        return next.handle(req)
+            .catch(function (err) {
+            if (err instanceof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["d" /* HttpErrorResponse */]) {
+                if (err.status === 401) {
+                    // JWT expired, go to login
+                    _this.router.navigate(['/login']);
+                    return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["a" /* Observable */].empty();
+                }
+            }
+            return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["a" /* Observable */].throw(err);
+        });
+    };
+    return UnauthorizedInterceptor;
+}());
+UnauthorizedInterceptor = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */]) === "function" && _a || Object])
+], UnauthorizedInterceptor);
+
+var _a;
+//# sourceMappingURL=unauthorized.interceptor.js.map
 
 /***/ }),
 

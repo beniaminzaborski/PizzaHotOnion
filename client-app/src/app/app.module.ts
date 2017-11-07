@@ -19,6 +19,7 @@ import { AboutComponent } from './about/about.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { JsonContentInterceptor } from './shared/json-content.interceptor';
 import { AuthInterceptor } from './shared/auth/auth.interceptor';
+import { UnauthorizedInterceptor } from './shared/auth/unauthorized.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AuthInterceptor } from './shared/auth/auth.interceptor';
     AppRoutingModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JsonContentInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthGuard,
