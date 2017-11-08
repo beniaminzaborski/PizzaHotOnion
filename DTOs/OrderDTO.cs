@@ -9,5 +9,6 @@ namespace PizzaHotOnion.DTOs
     public int Quantity { get; set; }
     public string Who { get; set; }
     public string Room { get; set; }
+    public bool IsApproved { get; set; }
   }
 }

@@ -15,15 +15,18 @@ namespace PizzaHotOnion.Controllers
     private readonly IOrderRepository orderRepository;
     private readonly IRoomRepository roomRepository;
     private readonly IUserRepository userRepository;
+    private readonly IOrdersApprovalRepository ordersApprovalRepository;
 
     public OrdersController(
         IOrderRepository orderRepository,
         IRoomRepository roomRepository,
-        IUserRepository userRepository)
+        IUserRepository userRepository,
+        IOrdersApprovalRepository ordersApprovalRepository)
     {
       this.orderRepository = orderRepository;
       this.roomRepository = roomRepository;
       this.userRepository = userRepository;
+      this.ordersApprovalRepository = ordersApprovalRepository;
     }
 
     [HttpGet("{room}")]
@@ -33,6 +36,7 @@ namespace PizzaHotOnion.Controllers
       DateTime orderDay = DateTime.Now.Date;
 
       var orders = await this.orderRepository.GetAllInRoom(room, orderDay);
+      var ordersApproval = await this.ordersApprovalRepository.GetByRoomDayAsync(room, orderDay);
 
       foreach (var order in orders)
         result.Add(new OrderDTO
@@ -41,7 +45,8 @@ namespace PizzaHotOnion.Controllers
           Day = order.Day,
           Who = order.Who.Email,
           Quantity = order.Quantity,
-          Room = order.Room.Name
+          Room = order.Room.Name,
+          IsApproved = ordersApproval != null
         });
 
       return result;
@@ -156,6 +161,41 @@ namespace PizzaHotOnion.Controllers
         await this.orderRepository.Remove(id);
 
         return new NoContentResult();
+    }
+
+     [HttpPost("{room}/approve")]
+    public async Task<IActionResult> Create(string room, [FromBody]ApproveOrdersDTO approveOrdersDTO)
+    {
+      if (approveOrdersDTO == null)
+        return BadRequest();
+
+      if (approveOrdersDTO.PizzaQuantity < 1)
+        return BadRequest("Pizza quantity has to be greater or equal 1");
+
+      if (string.IsNullOrEmpty(approveOrdersDTO.Room))
+        return BadRequest("Room is required");
+
+      if (room != approveOrdersDTO.Room)
+        return BadRequest("Incorect room");
+
+      var roomEntity = await this.roomRepository.GetByNameAsync(approveOrdersDTO.Room);
+      if (roomEntity == null)
+        return BadRequest(string.Format("Room '{0}' does not exist", approveOrdersDTO.Room));
+
+      DateTime orderDay = DateTime.Now.Date;
+
+      OrdersApproval ordersApprovalEntity = await this.ordersApprovalRepository.GetByRoomDayAsync(approveOrdersDTO.Room, orderDay);
+      if (ordersApprovalEntity != null)
+        return BadRequest("Orders are approved");
+
+
+      ordersApprovalEntity = new OrdersApproval(Guid.NewGuid());
+      ordersApprovalEntity.Day = orderDay;
+      ordersApprovalEntity.Room = roomEntity;
+      ordersApprovalEntity.PizzaQuantity = approveOrdersDTO.PizzaQuantity;
+      await this.ordersApprovalRepository.Add(ordersApprovalEntity);
+
+      return CreatedAtRoute("GetOrdersApproval", new { room = ordersApprovalEntity.Room }, new { });
     }
   }
 }

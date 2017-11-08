@@ -39,6 +39,7 @@ namespace PizzaHotOnion
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IRoomRepository, RoomRepository>();
       services.AddScoped<IOrderRepository, OrderRepository>();
+      services.AddScoped<IOrdersApprovalRepository, OrdersApprovalRepository>();
       services.AddScoped<IAuthenticationService, AuthenticationService>();
 
       //JWT

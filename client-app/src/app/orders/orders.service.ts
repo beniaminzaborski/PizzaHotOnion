@@ -7,6 +7,7 @@ import "rxjs/add/operator/map";
 import { Config } from "../shared/config";
 import { OrderItem } from "./order-item.model";
 import { Order } from "./order.model";
+import { OrdersApproval } from "./orders-approval.model";
 
 @Injectable()
 export class OrdersService {
@@ -32,5 +33,15 @@ export class OrdersService {
     return this.http.delete(
       `${Config.apiUrl}orders/${room}/${id}`, { observe: 'response' }
     ).map(response => response.status == 204);
+  }
+
+  public approveOrders(ordersApproval: OrdersApproval): Observable<boolean> {
+    let body = JSON.stringify(ordersApproval);
+
+    let room = ordersApproval.room;
+
+    return this.http.post(
+      `${Config.apiUrl}orders/${room}/approve`, body, { observe: 'response' }
+    ).map(response => response.status == 201);
   }
 }

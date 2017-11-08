@@ -401,10 +401,25 @@ var Order = (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/orders/orders-approval.model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrdersApproval; });
+var OrdersApproval = (function () {
+    function OrdersApproval() {
+    }
+    return OrdersApproval;
+}());
+
+//# sourceMappingURL=orders-approval.model.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/orders/orders.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ngFor=\"let room of rooms\" [ngClass]=\"{ 'active' : room.isActive }\">\r\n    <a href=\"\" (click)=\"selectRoom(room)\">{{room.name}}</a>\r\n  </li>\r\n</ul>\r\n\r\n<div *ngIf=\"selectedRoomName\">\r\n  <div>\r\n    <br>\r\n    <form #orderForm=\"ngForm\" (submit)=\"makeOrder()\" class=\"form-inline\">\r\n      <div class=\"form-group\">\r\n        <label for=\"quantity\">Number of slices</label>\r\n        <input type=\"number\" class=\"form-control\" id=\"quantity\" name=\"quantity\" [(ngModel)]=\"order.quantity\" required>\r\n      </div>\r\n      <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!orderForm.form.valid\">Grab it!</button>\r\n      <button class=\"btn btn-danger\" type=\"button\" (click)=\"cancel()\">Cancel</button>\r\n      <button class=\"btn btn-success\" type=\"button\" (click)=\"refresh()\">Refresh</button>\r\n    </form>\r\n    <br>\r\n  </div>\r\n\r\n  <div *ngIf=\"pizzas > 0\"><strong>{{slicesToGet}}</strong> slice(s) of <strong>{{pizzas}}</strong> pizza(s) to get</div>\r\n  <div *ngIf=\"pizzas == 0\">No orders</div>\r\n\r\n  <!-- <div style=\"display: block\" *ngIf=\"pizzas > 0\"> -->\r\n  <div class=\"col-md-10\" *ngIf=\"pizzas > 0\">\r\n    <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\"\r\n      [colors]=\"pieChartColours\"\r\n      (chartHover)=\"chartHovered($event)\"\r\n      (chartClick)=\"chartClicked($event)\"></canvas>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"!selectedRoomName\">\r\n  <h3>Choose your room</h3>\r\n</div>\r\n"
+module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ngFor=\"let room of rooms\" [ngClass]=\"{ 'active' : room.isActive }\">\r\n    <a href=\"\" (click)=\"selectRoom(room)\">{{room.name}}</a>\r\n  </li>\r\n</ul>\r\n\r\n<div *ngIf=\"selectedRoomName\">\r\n  <div>\r\n    <br>\r\n    <form #orderForm=\"ngForm\" (submit)=\"makeOrder()\" class=\"form-inline\">\r\n      <div class=\"input-group\">\r\n        <input type=\"number\" class=\"form-control\" id=\"quantity\" name=\"quantity\" [(ngModel)]=\"order.quantity\" placeholder=\"Number of slices\"\r\n          [disabled]=\"isApproved\" required>\r\n        <div class=\"input-group-btn\">\r\n          <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!orderForm.form.valid || isApproved\">Grab</button>\r\n          <button class=\"btn btn-danger\" type=\"button\" (click)=\"cancel()\" [disabled]=\"isApproved\">Cancel</button>\r\n        </div>\r\n      </div>\r\n    </form>\r\n    <br>\r\n  </div>\r\n\r\n  <div *ngIf=\"pizzas > 0\">\r\n    <h4>\r\n      <span *ngIf=\"!isApproved\">\r\n        <strong>{{slicesToGet}}</strong> {{ slicesToGet == 1 ? 'slice' : 'slices' }} of\r\n        <strong>{{pizzas}}</strong> {{ pizzas == 1 ? 'pizza' : 'pizzas' }} to get\r\n      </span>\r\n      <span *ngIf=\"isApproved\">\r\n        <strong>{{pizzas}}</strong> {{ pizzas == 1 ? 'pizza' : 'pizzas' }} approved\r\n      </span>\r\n      <button class=\"btn btn-primary\" type=\"button\" (click)=\"approveOrders()\" [disabled]=\"isApproved\">Approve orders</button>\r\n      <button class=\"btn btn-success\" type=\"button\" (click)=\"refresh()\">Refresh</button>\r\n    </h4>\r\n  </div>\r\n  <div *ngIf=\"pizzas == 0\">No orders</div>\r\n\r\n  <br>\r\n\r\n  <!-- <div style=\"display: block\" *ngIf=\"pizzas > 0\"> -->\r\n  <div class=\"col-md-10\" *ngIf=\"pizzas > 0\">\r\n    <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\" [colors]=\"pieChartColours\" (chartHover)=\"chartHovered($event)\"\r\n      (chartClick)=\"chartClicked($event)\"></canvas>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"!selectedRoomName\">\r\n  <h3>Choose your room</h3>\r\n</div>"
 
 /***/ }),
 
@@ -421,6 +436,7 @@ module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ng
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__orders_service__ = __webpack_require__("../../../../../src/app/orders/orders.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_charts__ = __webpack_require__("../../../../ng2-charts/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_charts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_charts__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__orders_approval_model__ = __webpack_require__("../../../../../src/app/orders/orders-approval.model.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -430,6 +446,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -448,13 +465,13 @@ var OrdersComponent = (function () {
         this.slices = 0;
         this.pizzas = 0;
         this.slicesToGet = 0;
+        this.isApproved = false;
         // Pie
-        this.pieChartLabels = []; //['BZ', 'JT', 'JT', 'FREE', 'FREE', 'FREE', 'FREE', 'FREE'];
-        this.pieChartData = []; //[1, 1, 1, 1, 1, 1, 1, 1];
+        this.pieChartLabels = [];
+        this.pieChartData = [];
         this.pieChartColours = [{ backgroundColor: ["#FFA1B5", "#7B68EE", "#87CEFA", "#B22222", "#FFE29A", "#D2B48C", "#90EE90", "#FF69B4", "#EE82EE", "#6A5ACD", "#b8436d", "#9ACD32", "#00d9f9", "#800080", "#FF6347", "#DDA0DD", "#a4c73c", "#a4add3", "#008000", "#DAA520", "#00BFFF", "#2F4F4F", "#FF8C00", "#A9A9A9", "#FFB6C1", "#00FFFF", "#6495ED", "#7FFFD4", "#F0F8FF", "#7FFF00", "#008B8B", "#9932CC", "#E9967A", "#8FBC8F", "#483D8B", "#D3D3D3", "#ADD8E6"] }];
         this.pieChartType = 'pie';
         this.order = new __WEBPACK_IMPORTED_MODULE_3__order_model__["a" /* Order */]();
-        this.order.quantity = 1;
         this.order.who = this.authenticationService.getLoggedUser();
     }
     OrdersComponent.prototype.ngOnInit = function () {
@@ -486,7 +503,21 @@ var OrdersComponent = (function () {
         this.orderItems = orderItems;
         this.slices = 0;
         this.pizzas = 0;
+        this.setNumberOfSlices();
+        this.checkIsApproved();
         this.preparePizzaChart();
+    };
+    OrdersComponent.prototype.checkIsApproved = function () {
+        this.isApproved = this.orderItems.some(function (item) { return item.isApproved; });
+    };
+    OrdersComponent.prototype.setNumberOfSlices = function () {
+        var _this = this;
+        var currentUserEmail = this.authenticationService.getLoggedUser();
+        this.orderItems.forEach(function (o) {
+            if (o.who == currentUserEmail) {
+                _this.order.quantity = o.quantity;
+            }
+        });
     };
     OrdersComponent.prototype.preparePizzaChart = function () {
         var _this = this;
@@ -548,6 +579,14 @@ var OrdersComponent = (function () {
     OrdersComponent.prototype.refresh = function () {
         this.loadOrdersInRoom(this.selectedRoomName);
         return false;
+    };
+    OrdersComponent.prototype.approveOrders = function () {
+        var _this = this;
+        var approval = new __WEBPACK_IMPORTED_MODULE_7__orders_approval_model__["a" /* OrdersApproval */]();
+        approval.pizzaQuantity = this.pizzas;
+        approval.room = this.order.room;
+        this.ordersService.approveOrders(approval)
+            .subscribe(function (result) { return _this.isApproved = true; }, function (error) { return alert(error); });
     };
     // events
     OrdersComponent.prototype.chartClicked = function (e) {
@@ -618,6 +657,11 @@ var OrdersService = (function () {
     };
     OrdersService.prototype.removeOrder = function (room, id) {
         return this.http.delete(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "orders/" + room + "/" + id, { observe: 'response' }).map(function (response) { return response.status == 204; });
+    };
+    OrdersService.prototype.approveOrders = function (ordersApproval) {
+        var body = JSON.stringify(ordersApproval);
+        var room = ordersApproval.room;
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "orders/" + room + "/approve", body, { observe: 'response' }).map(function (response) { return response.status == 201; });
     };
     return OrdersService;
 }());

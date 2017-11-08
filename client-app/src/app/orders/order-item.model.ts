@@ -4,4 +4,5 @@ export class OrderItem {
   public quantity: number;
   public who: string;
   public room: string;
+  public isApproved: boolean;
 }

@@ -7,6 +7,7 @@ import { AuthenticationService } from '../shared/auth/authentication.service';
 import { OrderItem } from './order-item.model';
 import { OrdersService } from './orders.service';
 import { BaseChartDirective } from 'ng2-charts';
+import { OrdersApproval } from './orders-approval.model';
 
 @Component({
   selector: 'app-root',
@@ -26,12 +27,13 @@ export class OrdersComponent implements OnInit {
   public slices: number = 0;
   public pizzas: number = 0;
   public slicesToGet: number = 0;
+  public isApproved: boolean = false;
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
   // Pie
-  public pieChartLabels: string[] = [];//['BZ', 'JT', 'JT', 'FREE', 'FREE', 'FREE', 'FREE', 'FREE'];
-  public pieChartData: number[] = [];//[1, 1, 1, 1, 1, 1, 1, 1];
+  public pieChartLabels: string[] = [];
+  public pieChartData: number[] = [];
   public pieChartColours: any[] = [{ backgroundColor: ["#FFA1B5", "#7B68EE", "#87CEFA", "#B22222", "#FFE29A", "#D2B48C", "#90EE90", "#FF69B4", "#EE82EE", "#6A5ACD", "#b8436d", "#9ACD32", "#00d9f9", "#800080", "#FF6347", "#DDA0DD", "#a4c73c", "#a4add3", "#008000", "#DAA520", "#00BFFF", "#2F4F4F", "#FF8C00", "#A9A9A9", "#FFB6C1", "#00FFFF", "#6495ED", "#7FFFD4", "#F0F8FF", "#7FFF00", "#008B8B", "#9932CC", "#E9967A", "#8FBC8F", "#483D8B", "#D3D3D3", "#ADD8E6"] }];
   public pieChartType: string = 'pie';
 
@@ -41,7 +43,6 @@ export class OrdersComponent implements OnInit {
     private ordersService: OrdersService,
     private authenticationService: AuthenticationService) {
     this.order = new Order();
-    this.order.quantity = 1;
     this.order.who = this.authenticationService.getLoggedUser();
   }
 
@@ -82,7 +83,23 @@ export class OrdersComponent implements OnInit {
     this.orderItems = orderItems;
     this.slices = 0;
     this.pizzas = 0;
+    this.setNumberOfSlices();
+    this.checkIsApproved();
     this.preparePizzaChart();
+  }
+
+  private checkIsApproved() : void {
+    this.isApproved = this.orderItems.some(item => item.isApproved);
+  }
+
+  private setNumberOfSlices() : void {
+    let currentUserEmail = this.authenticationService.getLoggedUser();
+
+    this.orderItems.forEach((o) => {
+      if(o.who == currentUserEmail) {
+        this.order.quantity = o.quantity;
+      }
+    });
   }
 
   private preparePizzaChart(): void {
@@ -154,6 +171,17 @@ export class OrdersComponent implements OnInit {
   public refresh(): boolean {
     this.loadOrdersInRoom(this.selectedRoomName);
     return false;
+  }
+
+  public approveOrders(): void {
+    let approval = new OrdersApproval();
+    approval.pizzaQuantity = this.pizzas;
+    approval.room = this.order.room;
+    this.ordersService.approveOrders(approval)
+      .subscribe(
+        result => this.isApproved = true,
+        error => alert(error)
+      );
   }
 
   // events
