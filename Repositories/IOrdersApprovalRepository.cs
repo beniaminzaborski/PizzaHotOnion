@@ -8,5 +8,7 @@ namespace PizzaHotOnion.Repositories
   public interface IOrdersApprovalRepository : ICrudRepository<OrdersApproval>
   {
     Task<OrdersApproval> GetByRoomDayAsync(string room, DateTime orderDay);
+
+    Task<bool> CheckExistsByRoomDayAsync(string room, DateTime orderDay);
   }
 }

@@ -20,7 +20,7 @@ webpackEmptyAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
 /***/ "../../../../../src/app/about/about.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\r\n  <h1>Pizza Hot Onion</h1>\r\n  <p>Hungry? Choose your favorite room and grab the slice!</p>\r\n  <p>Anytime! Anywhere!</p>\r\n  <p>\r\n    <a class=\"btn btn-primary btn-lg\" routerLink=\"/orders\" role=\"button\">Grab it!</a>\r\n  </p>\r\n</div>"
+module.exports = "<div class=\"jumbotron\">\r\n  <h1>Pizza Hot Onion</h1>\r\n  <p>Hungry? Choose your favorite room and grab the slice!</p>\r\n  <p>Anytime! Anywhere!</p>\r\n  <p>\r\n    <a class=\"btn btn-primary btn-lg\" routerLink=\"/orders\" role=\"button\">Grab it!</a>\r\n  </p>\r\n  <br>\r\n  <p>\r\n    <small class=\"text-muted\">Powered by: .NET Core, Angular 4, MongoDB</small>\r\n  </p>\r\n</div>"
 
 /***/ }),
 
@@ -144,7 +144,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav role=\"navigation\" class=\"navbar navbar-inverse navbar-fixed-top\" *ngIf=\"router.url != '/login'\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\"\r\n        aria-controls=\"navbar\">\r\n        <span class=\"sr-only\">Toggle navigation</span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      <a class=\"navbar-brand\">Hot Onion</a>\r\n    </div>\r\n    <div id=\"navbar\" class=\"navbar-collapse collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n        <li>\r\n          <a routerLink=\"/orders\" [routerLinkActive]=\"['active']\">Orders</a>\r\n        </li>\r\n        <li>\r\n            <a routerLink=\"/rooms\" [routerLinkActive]=\"['active']\">Rooms</a>\r\n        </li>\r\n      </ul>\r\n\r\n      <ul class=\"nav navbar-nav navbar-right\">\r\n        <li>\r\n          <a routerLink=\"/about\" [routerLinkActive]=\"['active']\">About</a>\r\n        </li>\r\n        <!--<li class=\"navbar-text pull-left\">{{username}}</li>-->\r\n        <li class=\"dropdown pull-right\">\r\n          <a href=\"#\" data-toggle=\"dropdown\" style=\"color:#777;\" class=\"dropdown-toggle\">\r\n            <span class=\"glyphicon glyphicon-user\"></span>\r\n            <b class=\"caret\"></b>\r\n          </a>\r\n          <ul class=\"dropdown-menu\">\r\n            <li>\r\n              <a routerLink=\"/profile\" [routerLinkActive]=\"['active']\" title=\"User profile\">\r\n                <span class=\"fa fa-user\" aria-hidden=\"true\"></span> Profile\r\n              </a>\r\n            </li>\r\n            <li>\r\n              <a href=\"#\" title=\"Sign Out\" (click)=\"logout(); $event.preventDefault()\">\r\n                <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span> Sign Out\r\n              </a>\r\n            </li>\r\n          </ul>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</nav>\r\n\r\n<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div>\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<footer class=\"footer navbar-inverse navbar-fixed-bottom\">\r\n  <div class=\"container-fluid\">\r\n    <span class=\"text-muted pull-right\">\r\n      <small>&copy; 2017 Biz | Powered by .NET Core & Angular 4 & MongoDB | ver. 0.5.0-alpha</small>\r\n    </span>\r\n  </div>\r\n</footer>"
+module.exports = "<nav role=\"navigation\" class=\"navbar navbar-inverse navbar-fixed-top\" *ngIf=\"router.url != '/login'\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\"\r\n        aria-controls=\"navbar\">\r\n        <span class=\"sr-only\">Toggle navigation</span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      <a class=\"navbar-brand\">Hot Onion</a>\r\n    </div>\r\n    <div id=\"navbar\" class=\"navbar-collapse collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n        <li>\r\n          <a routerLink=\"/orders\" [routerLinkActive]=\"['active']\">Orders</a>\r\n        </li>\r\n        <li>\r\n            <a routerLink=\"/rooms\" [routerLinkActive]=\"['active']\">Rooms</a>\r\n        </li>\r\n      </ul>\r\n\r\n      <ul class=\"nav navbar-nav navbar-right\">\r\n        <li>\r\n          <a routerLink=\"/about\" [routerLinkActive]=\"['active']\">About</a>\r\n        </li>\r\n        <!--<li class=\"navbar-text pull-left\">{{username}}</li>-->\r\n        <li class=\"dropdown pull-right\">\r\n          <a href=\"#\" data-toggle=\"dropdown\" style=\"color:#777;\" class=\"dropdown-toggle\">\r\n            <span class=\"glyphicon glyphicon-user\"></span>\r\n            <b class=\"caret\"></b>\r\n          </a>\r\n          <ul class=\"dropdown-menu\">\r\n            <li>\r\n              <a routerLink=\"/profile\" [routerLinkActive]=\"['active']\" title=\"User profile\">\r\n                <span class=\"fa fa-user\" aria-hidden=\"true\"></span> Profile\r\n              </a>\r\n            </li>\r\n            <li>\r\n              <a href=\"#\" title=\"Sign Out\" (click)=\"logout(); $event.preventDefault()\">\r\n                <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span> Sign Out\r\n              </a>\r\n            </li>\r\n          </ul>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</nav>\r\n\r\n<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div>\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<footer class=\"footer navbar-inverse navbar-fixed-bottom\">\r\n  <div class=\"container-fluid\">\r\n    <span class=\"text-muted pull-right\">\r\n      <small>&copy; 2017 Biz | ver. 0.5.3-alpha</small>\r\n    </span>\r\n  </div>\r\n</footer>"
 
 /***/ }),
 
@@ -401,21 +401,6 @@ var Order = (function () {
 
 /***/ }),
 
-/***/ "../../../../../src/app/orders/orders-approval.model.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrdersApproval; });
-var OrdersApproval = (function () {
-    function OrdersApproval() {
-    }
-    return OrdersApproval;
-}());
-
-//# sourceMappingURL=orders-approval.model.js.map
-
-/***/ }),
-
 /***/ "../../../../../src/app/orders/orders.component.html":
 /***/ (function(module, exports) {
 
@@ -436,7 +421,6 @@ module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ng
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__orders_service__ = __webpack_require__("../../../../../src/app/orders/orders.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_charts__ = __webpack_require__("../../../../ng2-charts/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_charts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_charts__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__orders_approval_model__ = __webpack_require__("../../../../../src/app/orders/orders-approval.model.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -446,7 +430,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -582,11 +565,8 @@ var OrdersComponent = (function () {
     };
     OrdersComponent.prototype.approveOrders = function () {
         var _this = this;
-        var approval = new __WEBPACK_IMPORTED_MODULE_7__orders_approval_model__["a" /* OrdersApproval */]();
-        approval.pizzaQuantity = this.pizzas;
-        approval.room = this.order.room;
-        this.ordersService.approveOrders(approval)
-            .subscribe(function (result) { return _this.isApproved = true; }, function (error) { return alert(error); });
+        this.ordersService.approveOrders(this.selectedRoomName)
+            .subscribe(function (result) { return _this.refresh(); }, function (error) { return alert(error); });
     };
     // events
     OrdersComponent.prototype.chartClicked = function (e) {
@@ -658,10 +638,8 @@ var OrdersService = (function () {
     OrdersService.prototype.removeOrder = function (room, id) {
         return this.http.delete(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "orders/" + room + "/" + id, { observe: 'response' }).map(function (response) { return response.status == 204; });
     };
-    OrdersService.prototype.approveOrders = function (ordersApproval) {
-        var body = JSON.stringify(ordersApproval);
-        var room = ordersApproval.room;
-        return this.http.post(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "orders/" + room + "/approve", body, { observe: 'response' }).map(function (response) { return response.status == 201; });
+    OrdersService.prototype.approveOrders = function (room) {
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_4__shared_config__["a" /* Config */].apiUrl + "orders/" + room + "/approve", null, { observe: 'response' }).map(function (response) { return response.status == 201; });
     };
     return OrdersService;
 }());

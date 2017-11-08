@@ -20,5 +20,14 @@ namespace PizzaHotOnion.Repositories
           .Find(filter)
           .FirstOrDefaultAsync();
     }
+
+    public async Task<bool> CheckExistsByRoomDayAsync(string room, DateTime orderDay)
+    {
+      var filter = Builders<OrdersApproval>.Filter.Eq(nameof(Order.Room) + "." + nameof(Room.Name), room);
+      filter = filter & (Builders<OrdersApproval>.Filter.Eq(nameof(Order.Day), orderDay.Date));
+      return await this.GetMongoCollection()
+          .Find(filter)
+          .AnyAsync();
+    }
   }
 }

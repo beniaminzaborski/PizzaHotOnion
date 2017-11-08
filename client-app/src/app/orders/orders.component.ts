@@ -174,12 +174,9 @@ export class OrdersComponent implements OnInit {
   }
 
   public approveOrders(): void {
-    let approval = new OrdersApproval();
-    approval.pizzaQuantity = this.pizzas;
-    approval.room = this.order.room;
-    this.ordersService.approveOrders(approval)
+    this.ordersService.approveOrders(this.selectedRoomName)
       .subscribe(
-        result => this.isApproved = true,
+        result => this.refresh(),
         error => alert(error)
       );
   }

@@ -35,13 +35,9 @@ export class OrdersService {
     ).map(response => response.status == 204);
   }
 
-  public approveOrders(ordersApproval: OrdersApproval): Observable<boolean> {
-    let body = JSON.stringify(ordersApproval);
-
-    let room = ordersApproval.room;
-
+  public approveOrders(room: string): Observable<boolean> {
     return this.http.post(
-      `${Config.apiUrl}orders/${room}/approve`, body, { observe: 'response' }
+      `${Config.apiUrl}orders/${room}/approve`, null, { observe: 'response' }
     ).map(response => response.status == 201);
   }
 }
