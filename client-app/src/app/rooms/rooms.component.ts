@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Room } from './room.model';
 import { RoomService } from './rooms.service';
+import { ErrorHelper } from '../shared/error-helper';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,8 @@ export class RoomsComponent implements OnInit {
     this.roomService.getRooms()
       .subscribe(
         rooms => this.rooms = rooms,
-        error => alert(error));
+        error => alert(ErrorHelper.getErrorMessage(error))
+      );
   }
 
   public addRoom(): void {
@@ -42,7 +44,8 @@ export class RoomsComponent implements OnInit {
           this.loadRooms();
         }
       },
-      error => alert(error));
+      error => alert(ErrorHelper.getErrorMessage(error))
+    );
   }
 
   public selectRoom(room: Room): boolean {
@@ -64,7 +67,8 @@ export class RoomsComponent implements OnInit {
         this.loadRooms();
       }
     },
-    error => alert(error));
+    error => alert(ErrorHelper.getErrorMessage(error))
+    );
     return false;
   }
 }

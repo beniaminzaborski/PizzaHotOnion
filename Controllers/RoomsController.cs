@@ -44,11 +44,11 @@ namespace PizzaHotOnion.Controllers
     public async Task<IActionResult> GetById(string name)
     {
       if (string.IsNullOrEmpty(name))
-        return BadRequest();
+        return BadRequest("Cannot get room because room name is empty");
 
       var room = await this.roomRepository.GetByNameAsync(name);
       if (room == null)
-        return NotFound();
+        return NotFound("Cannot get room because room does not exists");
 
       return new ObjectResult(new RoomDTO { Name = room.Name });
     }
@@ -57,7 +57,7 @@ namespace PizzaHotOnion.Controllers
     public async Task<IActionResult> Create([FromBody]RoomDTO roomDTO)
     {
       if (roomDTO == null || string.IsNullOrEmpty(roomDTO.Name))
-        return BadRequest();
+        return BadRequest("Cannot add room because data is empty");
 
       var room = await this.roomRepository.GetByNameAsync(roomDTO.Name);
       if (room == null)
@@ -76,10 +76,10 @@ namespace PizzaHotOnion.Controllers
     public async Task<IActionResult> Delete(string name)
     {
       if (string.IsNullOrEmpty(name))
-        return BadRequest();
+        return BadRequest("Cannot delete room because room name is incorrect");
 
       if(await this.orderRepository.CheckAnyOrderExists(name, DateTime.Now.Date))
-        return BadRequest("Can not remove room because orders exist");
+        return BadRequest("Can not delete room because orders exist");
 
       Room room = await this.roomRepository.GetByNameAsync(name);
       if (room != null)

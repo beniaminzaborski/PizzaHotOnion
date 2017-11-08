@@ -421,6 +421,7 @@ module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ng
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__orders_service__ = __webpack_require__("../../../../../src/app/orders/orders.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_charts__ = __webpack_require__("../../../../ng2-charts/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_charts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_charts__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_error_helper__ = __webpack_require__("../../../../../src/app/shared/error-helper.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -430,6 +431,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -480,7 +482,7 @@ var OrdersComponent = (function () {
     OrdersComponent.prototype.loadOrdersInRoom = function (roomName) {
         var _this = this;
         this.ordersService.getOrders(roomName)
-            .subscribe(function (orderItems) { return _this.onLoadOrderItems(orderItems); }, function (error) { return alert(error); });
+            .subscribe(function (orderItems) { return _this.onLoadOrderItems(orderItems); }, function (error) { return alert(__WEBPACK_IMPORTED_MODULE_7__shared_error_helper__["a" /* ErrorHelper */].getErrorMessage(error)); });
     };
     OrdersComponent.prototype.onLoadOrderItems = function (orderItems) {
         this.orderItems = orderItems;
@@ -536,7 +538,7 @@ var OrdersComponent = (function () {
             .subscribe(function (result) {
             if (result)
                 _this.loadOrdersInRoom(_this.selectedRoomName);
-        }, function (error) { return alert(error); });
+        }, function (error) { return alert(__WEBPACK_IMPORTED_MODULE_7__shared_error_helper__["a" /* ErrorHelper */].getErrorMessage(error)); });
         return false;
     };
     OrdersComponent.prototype.cancel = function () {
@@ -546,7 +548,7 @@ var OrdersComponent = (function () {
             .subscribe(function (result) {
             if (result)
                 _this.loadOrdersInRoom(_this.selectedRoomName);
-        }, function (error) { return alert(error); });
+        }, function (error) { return alert(__WEBPACK_IMPORTED_MODULE_7__shared_error_helper__["a" /* ErrorHelper */].getErrorMessage(error)); });
         return false;
     };
     OrdersComponent.prototype.getOrderId = function () {
@@ -566,7 +568,7 @@ var OrdersComponent = (function () {
     OrdersComponent.prototype.approveOrders = function () {
         var _this = this;
         this.ordersService.approveOrders(this.selectedRoomName)
-            .subscribe(function (result) { return _this.refresh(); }, function (error) { return alert(error); });
+            .subscribe(function (result) { return _this.refresh(); }, function (error) { return alert(__WEBPACK_IMPORTED_MODULE_7__shared_error_helper__["a" /* ErrorHelper */].getErrorMessage(error)); });
     };
     // events
     OrdersComponent.prototype.chartClicked = function (e) {
@@ -684,6 +686,7 @@ module.exports = "<div>\r\n  <br>\r\n  <form #roomForm=\"ngForm\" (submit)=\"add
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__room_model__ = __webpack_require__("../../../../../src/app/rooms/room.model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__rooms_service__ = __webpack_require__("../../../../../src/app/rooms/rooms.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_error_helper__ = __webpack_require__("../../../../../src/app/shared/error-helper.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -693,6 +696,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -711,7 +715,7 @@ var RoomsComponent = (function () {
     RoomsComponent.prototype.loadRooms = function () {
         var _this = this;
         this.roomService.getRooms()
-            .subscribe(function (rooms) { return _this.rooms = rooms; }, function (error) { return alert(error); });
+            .subscribe(function (rooms) { return _this.rooms = rooms; }, function (error) { return alert(__WEBPACK_IMPORTED_MODULE_4__shared_error_helper__["a" /* ErrorHelper */].getErrorMessage(error)); });
     };
     RoomsComponent.prototype.addRoom = function () {
         var _this = this;
@@ -722,7 +726,7 @@ var RoomsComponent = (function () {
                 _this.selectedRoom = null;
                 _this.loadRooms();
             }
-        }, function (error) { return alert(error); });
+        }, function (error) { return alert(__WEBPACK_IMPORTED_MODULE_4__shared_error_helper__["a" /* ErrorHelper */].getErrorMessage(error)); });
     };
     RoomsComponent.prototype.selectRoom = function (room) {
         if (this.selectedRoom == room)
@@ -741,7 +745,7 @@ var RoomsComponent = (function () {
                 _this.selectedRoom = null;
                 _this.loadRooms();
             }
-        }, function (error) { return alert(error); });
+        }, function (error) { return alert(__WEBPACK_IMPORTED_MODULE_4__shared_error_helper__["a" /* ErrorHelper */].getErrorMessage(error)); });
         return false;
     };
     return RoomsComponent;
@@ -1225,6 +1229,34 @@ Config.baseUrl = __WEBPACK_IMPORTED_MODULE_0__environments_environment__["a" /* 
 Config.apiUrl = Config.baseUrl + "api/";
 Config.title = "Hot Onion";
 //# sourceMappingURL=config.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/error-helper.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ErrorHelper; });
+var ErrorHelper = (function () {
+    function ErrorHelper() {
+    }
+    ErrorHelper.getErrorMessage = function (error) {
+        //console.log('error', error);
+        var errorMessage = '';
+        if (error._body)
+            errorMessage = error._body;
+        else if (error.error)
+            errorMessage = error.error;
+        else if (error.statusText)
+            errorMessage = error.statusText;
+        if (error.status == 403)
+            errorMessage = 'You do not have enought priviliges';
+        return errorMessage;
+    };
+    return ErrorHelper;
+}());
+
+//# sourceMappingURL=error-helper.js.map
 
 /***/ }),
 

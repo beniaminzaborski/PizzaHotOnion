@@ -27,19 +27,19 @@ namespace PizzaHotOnion.Controllers
     public async Task<IActionResult> Register([FromBody]RegisterUserDTO registerUserDTO)
     {
       if (registerUserDTO == null)
-        return BadRequest();
+        return BadRequest("Cannot register user because data is empty");
 
       if (string.IsNullOrWhiteSpace(registerUserDTO.Email))
-        return BadRequest("E-mail is required");
+        return BadRequest("Cannot register user because e-mail is empty");
 
       if (string.IsNullOrWhiteSpace(registerUserDTO.Passwd))
-        return BadRequest("Password is required");
+        return BadRequest("Cannot register user because password is empty");
 
       if(registerUserDTO.Passwd.Length < 4)
-        return BadRequest("Password is too short");
+        return BadRequest("Cannot register user because password is too short");
 
       if (await this.userRepository.CheckEmailExists(registerUserDTO.Email))
-        return BadRequest("User with supplied e-mail exists yet");
+        return BadRequest("Cannot register user because user with supplied e-mail exists yet");
 
       User user = new User(Guid.NewGuid());
       user.Email = registerUserDTO.Email;
@@ -57,30 +57,30 @@ namespace PizzaHotOnion.Controllers
     public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordDTO changePasswordDTO)
     {
       if (changePasswordDTO == null)
-        return BadRequest();
+        return BadRequest("Cannot change password because data is empty");
 
       if (string.IsNullOrWhiteSpace(changePasswordDTO.Email))
-        return BadRequest("E-mail is required");
+        return BadRequest("Cannot change password because e-mail is empty");
 
       if (string.IsNullOrWhiteSpace(changePasswordDTO.CurrentPasswd))
-        return BadRequest("Password is required");
+        return BadRequest("Cannot change password because password is empty");
 
       if (string.IsNullOrWhiteSpace(changePasswordDTO.Passwd))
-        return BadRequest("Password is required");
+        return BadRequest("Cannot change password because password is empty");
 
       if (changePasswordDTO.Passwd != changePasswordDTO.Passwd2)
-        return BadRequest("Passwords are not equals");
+        return BadRequest("Cannot change password because passwords are not equals");
 
       if(changePasswordDTO.Passwd.Length < 4)
-        return BadRequest("Password is too short");
+        return BadRequest("Cannot change password because password is too short");
 
       var user = await this.userRepository.GetByEmailAsync(changePasswordDTO.Email);
       if (user == null)
-        return BadRequest("Incorrect e-mail or password");
+        return BadRequest("Cannot change password because e-mail or password are incorrect");
 
       string currentHashedPasswd = this.passwordHasher.Hash(changePasswordDTO.Email, changePasswordDTO.CurrentPasswd);
       if (currentHashedPasswd != user.Passwd)
-        return BadRequest("Incorrect e-mail or password");
+        return BadRequest("Cannot change password because e-mail or password are incorrect");
 
       user.Passwd = passwordHasher.Hash(
           changePasswordDTO.Email,

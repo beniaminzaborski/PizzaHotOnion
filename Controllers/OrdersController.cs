@@ -79,32 +79,32 @@ namespace PizzaHotOnion.Controllers
     public async Task<IActionResult> Create(string room, [FromBody]MakeOrderDTO orderDTO)
     {
       if (orderDTO == null)
-        return BadRequest();
+        return BadRequest("Cannot add order because data is empty");
 
       if (orderDTO.Quantity < 1)
-        return BadRequest("Quantity has to be greater or equal 1");
+        return BadRequest("Cannot add order because quantity has to be greater or equal 1");
 
       if (string.IsNullOrEmpty(orderDTO.Room))
-        return BadRequest("Room is required");
+        return BadRequest("Cannot add order because room name is required");
 
       if (string.IsNullOrEmpty(orderDTO.Who))
-        return BadRequest("Login is required");
+        return BadRequest("Cannot add order because login is empty");
 
       DateTime orderDay = DateTime.Now.Date;
 
-      if(await this.ordersApprovalRepository.CheckExistsByRoomDayAsync(room, orderDay))
-        return BadRequest("Orders are approved");
+      if (await this.ordersApprovalRepository.CheckExistsByRoomDayAsync(room, orderDay))
+        return BadRequest("Cannot add order because orders are approved");
 
       var roomEntity = await this.roomRepository.GetByNameAsync(orderDTO.Room);
       if (roomEntity == null)
-        return BadRequest(string.Format("Room '{0}' does not exist", orderDTO.Room));
+        return BadRequest(string.Format("Cannot add order because room '{0}' does not exist", orderDTO.Room));
 
       var userEntity = await this.userRepository.GetByEmailAsync(orderDTO.Who);
       if (userEntity == null)
-        return BadRequest(string.Format("User '{0}' does not exist", orderDTO.Who));      
+        return BadRequest(string.Format("Cannot add order because user '{0}' does not exist", orderDTO.Who));
 
       Order orderEntity = await this.orderRepository.GetOrder(orderDTO.Room, orderDay, orderDTO.Who);
-      if(orderEntity == null)
+      if (orderEntity == null)
       {
         orderEntity = new Order(Guid.NewGuid());
         orderEntity.Day = orderDay;
@@ -112,11 +112,13 @@ namespace PizzaHotOnion.Controllers
         orderEntity.Room = roomEntity;
         orderEntity.Quantity = orderDTO.Quantity;
         await this.orderRepository.Add(orderEntity);
-      } else {
+      }
+      else
+      {
         orderEntity.Quantity = orderDTO.Quantity;
         await this.orderRepository.Update(orderEntity);
       }
-    
+
       return CreatedAtRoute("GetOrder", new { id = orderEntity.Id }, new { });
     }
 
@@ -124,26 +126,26 @@ namespace PizzaHotOnion.Controllers
     public async Task<IActionResult> Update(string room, Guid id, [FromBody]OrderDTO orderDTO)
     {
       if (orderDTO == null)
-        return BadRequest();
+        return BadRequest("Cannot update order because data is empty");
 
       if (orderDTO.Id == null || orderDTO.Id == Guid.Empty || orderDTO.Id != id)
-        return BadRequest();
+        return BadRequest("Cannot update order because data is empty");
 
       if (string.IsNullOrWhiteSpace(orderDTO.Room) || orderDTO.Room != room)
-        return BadRequest();
+        return BadRequest("Cannot update order because room name is incorrect");
 
-      if(await this.ordersApprovalRepository.CheckExistsByRoomDayAsync(room, DateTime.Now.Date))
-        return BadRequest("Orders are approved");
+      if (await this.ordersApprovalRepository.CheckExistsByRoomDayAsync(room, DateTime.Now.Date))
+        return BadRequest("Cannot update order because orders are approved");
 
       if (orderDTO.Quantity < 1)
-        return BadRequest("Quantity has to be greater or equal 1");
+        return BadRequest("Cannot update order because quantity has to be greater or equal 1");
 
       Order orderEntity = await this.orderRepository.Get(id);
       if (orderEntity == null)
-        return BadRequest();
+        return BadRequest("Cannot update order because order does not exist");
 
-      if(orderEntity.Room.Name != room)
-        return BadRequest();
+      if (orderEntity.Room.Name != room)
+        return BadRequest("Cannot update order because room name is incorrect");
 
       orderEntity.Quantity = orderDTO.Quantity;
 
@@ -155,25 +157,25 @@ namespace PizzaHotOnion.Controllers
     [HttpDelete("{room}/{id}")]
     public async Task<IActionResult> Delete(string room, Guid id)
     {
-         if (id == Guid.Empty)
-            return BadRequest();
+      if (id == Guid.Empty)
+        return BadRequest("Cannot delete order because it does not exists");
 
-      if(await this.ordersApprovalRepository.CheckExistsByRoomDayAsync(room, DateTime.Now.Date))
-        return BadRequest("Orders are approved");
+      if (await this.ordersApprovalRepository.CheckExistsByRoomDayAsync(room, DateTime.Now.Date))
+        return BadRequest("Cannot delete order because it is approved");
 
-        var order = await this.orderRepository.Get(id);
-        if(order == null)
-          return BadRequest();
+      var order = await this.orderRepository.Get(id);
+      if (order == null)
+        return BadRequest("Cannot delete order because it does not exist");
 
-        if(order.Room.Name != room)
-          return BadRequest();
+      if (order.Room.Name != room)
+        return BadRequest("Cannot delete order because room name is incorrect");
 
-        await this.orderRepository.Remove(id);
+      await this.orderRepository.Remove(id);
 
-        return new NoContentResult();
+      return new NoContentResult();
     }
 
-     [HttpPost("{room}/approve")]
+    [HttpPost("{room}/approve")]
     public async Task<IActionResult> Approve(string room/*, [FromBody]ApproveOrdersDTO approveOrdersDTO*/)
     {
       // if (approveOrdersDTO == null)
@@ -183,19 +185,19 @@ namespace PizzaHotOnion.Controllers
       //   return BadRequest("Pizza quantity has to be greater or equal 1");
 
       if (string.IsNullOrEmpty(room))
-        return BadRequest("Room is required");
+        return BadRequest("Cannot approve orders because room name is incorrect");
 
       // if (room != approveOrdersDTO.Room)
       //   return BadRequest("Incorect room");
 
       var roomEntity = await this.roomRepository.GetByNameAsync(room);
       if (roomEntity == null)
-        return BadRequest(string.Format("Room '{0}' does not exist", room));
+        return BadRequest(string.Format("Cannot approve orders because room '{0}' does not exist", room));
 
       DateTime orderDay = DateTime.Now.Date;
 
-      if(await this.ordersApprovalRepository.CheckExistsByRoomDayAsync(room, orderDay))
-        return BadRequest("Orders are approved");
+      if (await this.ordersApprovalRepository.CheckExistsByRoomDayAsync(room, orderDay))
+        return BadRequest("Cannot approve orders because orders are approved");
 
       var orders = await this.orderRepository.GetAllInRoom(room, orderDay);
       int slices = orders.Sum(o => o.Quantity);

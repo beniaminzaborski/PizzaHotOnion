@@ -8,6 +8,7 @@ import { OrderItem } from './order-item.model';
 import { OrdersService } from './orders.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { OrdersApproval } from './orders-approval.model';
+import { ErrorHelper } from '../shared/error-helper';
 
 @Component({
   selector: 'app-root',
@@ -75,7 +76,7 @@ export class OrdersComponent implements OnInit {
     this.ordersService.getOrders(roomName)
       .subscribe(
         orderItems => this.onLoadOrderItems(orderItems),
-        error => alert(error)
+        error => alert(ErrorHelper.getErrorMessage(error))
       );
   }
 
@@ -142,7 +143,8 @@ export class OrdersComponent implements OnInit {
       if(result)
         this.loadOrdersInRoom(this.selectedRoomName);
     },
-    error => alert(error));
+    error => alert(ErrorHelper.getErrorMessage(error))
+    );
     return false;
   }
 
@@ -154,7 +156,8 @@ export class OrdersComponent implements OnInit {
       if(result)
         this.loadOrdersInRoom(this.selectedRoomName);
     },
-    error => alert(error));
+    error => alert(ErrorHelper.getErrorMessage(error))
+    );
     return false;
   }
 
@@ -177,7 +180,7 @@ export class OrdersComponent implements OnInit {
     this.ordersService.approveOrders(this.selectedRoomName)
       .subscribe(
         result => this.refresh(),
-        error => alert(error)
+        error => alert(ErrorHelper.getErrorMessage(error))
       );
   }
 
