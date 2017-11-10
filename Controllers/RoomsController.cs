@@ -6,6 +6,7 @@ using PizzaHotOnion.Entities;
 using PizzaHotOnion.Repositories;
 using PizzaHotOnion.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 
 namespace PizzaHotOnion.Controllers
 {
@@ -18,13 +19,16 @@ namespace PizzaHotOnion.Controllers
   {
     private readonly IRoomRepository roomRepository;
     private readonly IOrderRepository orderRepository;
+    private readonly IHubContext<MessageHub> messageHubContext;
 
     public RoomsController(
       IRoomRepository roomRepository,
-      IOrderRepository orderRepository)
+      IOrderRepository orderRepository,
+      IHubContext<MessageHub> messageHubContext)
     {
       this.roomRepository = roomRepository;
       this.orderRepository = orderRepository;
+      this.messageHubContext = messageHubContext;
     }
 
     [HttpGet]
@@ -66,6 +70,13 @@ namespace PizzaHotOnion.Controllers
         newRoom.Name = roomDTO.Name;
         await this.roomRepository.Add(newRoom);
 
+        //Broadcast message to client  
+        await this.messageHubContext.Clients.All
+          .InvokeAsync(
+            "send", 
+            new MessageDTO { Operation = OperationType.RoomCreated, Context = roomDTO.Name }
+          );
+
         return CreatedAtRoute("GetRoom", new { name = roomDTO.Name }, new { });
       }
 
@@ -78,13 +89,21 @@ namespace PizzaHotOnion.Controllers
       if (string.IsNullOrEmpty(name))
         return BadRequest("Cannot delete room because room name is incorrect");
 
-      if(await this.orderRepository.CheckAnyOrderExists(name, DateTime.Now.Date))
+      if (await this.orderRepository.CheckAnyOrderExists(name, DateTime.Now.Date))
         return BadRequest("Can not delete room because orders exist");
 
       Room room = await this.roomRepository.GetByNameAsync(name);
       if (room != null)
+      {
         await this.roomRepository.Remove(room.Id);
 
+        //Broadcast message to client  
+        await this.messageHubContext.Clients.All
+          .InvokeAsync(
+            "send", 
+            new MessageDTO { Operation = OperationType.RoomDeleted, Context = name }
+          );
+      }
       return new NoContentResult();
     }
   }

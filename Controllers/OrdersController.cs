@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using PizzaHotOnion.DTOs;
 using PizzaHotOnion.Entities;
 using PizzaHotOnion.Repositories;
@@ -17,17 +18,20 @@ namespace PizzaHotOnion.Controllers
     private readonly IRoomRepository roomRepository;
     private readonly IUserRepository userRepository;
     private readonly IOrdersApprovalRepository ordersApprovalRepository;
+    private readonly IHubContext<MessageHub> messageHubContext;
 
     public OrdersController(
         IOrderRepository orderRepository,
         IRoomRepository roomRepository,
         IUserRepository userRepository,
-        IOrdersApprovalRepository ordersApprovalRepository)
+        IOrdersApprovalRepository ordersApprovalRepository,
+        IHubContext<MessageHub> messageHubContext)
     {
       this.orderRepository = orderRepository;
       this.roomRepository = roomRepository;
       this.userRepository = userRepository;
       this.ordersApprovalRepository = ordersApprovalRepository;
+      this.messageHubContext = messageHubContext;
     }
 
     [HttpGet("{room}", Name = "GetAll")]
@@ -119,6 +123,13 @@ namespace PizzaHotOnion.Controllers
         await this.orderRepository.Update(orderEntity);
       }
 
+      //Broadcast message to client  
+      await this.messageHubContext.Clients.All
+        .InvokeAsync(
+          "send",
+          new MessageDTO { Operation = OperationType.SliceGrabbed, Context = orderDTO.Room }
+        );
+
       return CreatedAtRoute("GetOrder", new { id = orderEntity.Id }, new { });
     }
 
@@ -151,6 +162,13 @@ namespace PizzaHotOnion.Controllers
 
       await this.orderRepository.Update(orderEntity);
 
+      //Broadcast message to client  
+      await this.messageHubContext.Clients.All
+        .InvokeAsync(
+          "send",
+          new MessageDTO { Operation = OperationType.SliceGrabbed, Context = orderDTO.Room }
+        );
+
       return new NoContentResult();
     }
 
@@ -171,6 +189,13 @@ namespace PizzaHotOnion.Controllers
         return BadRequest("Cannot delete order because room name is incorrect");
 
       await this.orderRepository.Remove(id);
+
+      //Broadcast message to client  
+      await this.messageHubContext.Clients.All
+        .InvokeAsync(
+          "send",
+          new MessageDTO { Operation = OperationType.SliceCancelled, Context = room }
+        );
 
       return new NoContentResult();
     }
@@ -208,6 +233,13 @@ namespace PizzaHotOnion.Controllers
       ordersApprovalEntity.Room = roomEntity;
       ordersApprovalEntity.PizzaQuantity = pizzas;
       await this.ordersApprovalRepository.Add(ordersApprovalEntity);
+
+      //Broadcast message to client  
+      await this.messageHubContext.Clients.All
+        .InvokeAsync(
+          "send",
+          new MessageDTO { Operation = OperationType.OrdersApproved, Context = room }
+        );
 
       return CreatedAtRoute("GetAll", new { room = room }, new { });
     }

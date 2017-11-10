@@ -9,6 +9,9 @@ import { OrdersService } from './orders.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { OrdersApproval } from './orders-approval.model';
 import { ErrorHelper } from '../shared/error-helper';
+import { HubConnection } from '@aspnet/signalr-client';
+import { Message, OperationType } from '../shared/message.model';
+import { Config } from '../shared/config';
 
 @Component({
   selector: 'app-root',
@@ -48,24 +51,60 @@ export class OrdersComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.registerSignalR();
+    this.loadRooms();
+  }
+
+  private registerSignalR() {
+    let connection = new HubConnection(`${Config.baseUrl}message`);
+    connection.on('send', data => {
+      //console.log(data);
+      let message: Message = <Message>data;
+      if(message) {
+        switch(message.operation) {
+          case OperationType.RoomCreated:
+          case OperationType.RoomDeleted:
+            this.loadRooms();
+          break;
+          case OperationType.SliceGrabbed:
+          case OperationType.SliceCancelled:
+          case OperationType.OrdersApproved:
+            if(message.context == this.selectedRoomName)
+              this.loadOrdersInRoom(this.selectedRoomName);
+          break;
+        }
+      }
+    });
+
+    connection.start()
+      .then(() => {
+         //console.log('MessageHub Connected');
+      });
+
+  }
+
+  private loadRooms(): void {
     this.roomService.getRooms()
       .subscribe(rooms => this.onLoadRooms(rooms));
   }
 
   private onLoadRooms(rooms: Room[]): void {
     this.rooms = rooms;
-    if (rooms.length > 0)
-      this.selectRoom(rooms[0]);
+    if (rooms.length > 0) {
+      if (this.selectedRoomName && this.rooms.some(r => r.name == this.selectedRoomName))
+        this.selectRoom(this.selectedRoomName);
+      else
+        this.selectRoom(rooms[0].name);
+    }
   }
 
-  public selectRoom(room: Room): boolean {
+  public selectRoom(roomName: string): boolean {
     this.rooms.forEach((r) => {
-      r.isActive = false;
+      r.isActive = r.name == roomName;
     });
-    room.isActive = true;
 
-    this.selectedRoomName = room.name;
-    this.order.room = room.name;
+    this.selectedRoomName = roomName;
+    this.order.room = roomName;
 
     this.loadOrdersInRoom(this.selectedRoomName);
 
@@ -75,8 +114,8 @@ export class OrdersComponent implements OnInit {
   private loadOrdersInRoom(roomName: string) {
     this.ordersService.getOrders(roomName)
       .subscribe(
-        orderItems => this.onLoadOrderItems(orderItems),
-        error => alert(ErrorHelper.getErrorMessage(error))
+      orderItems => this.onLoadOrderItems(orderItems),
+      error => alert(ErrorHelper.getErrorMessage(error))
       );
   }
 
@@ -89,15 +128,15 @@ export class OrdersComponent implements OnInit {
     this.preparePizzaChart();
   }
 
-  private checkIsApproved() : void {
+  private checkIsApproved(): void {
     this.isApproved = this.orderItems.some(item => item.isApproved);
   }
 
-  private setNumberOfSlices() : void {
+  private setNumberOfSlices(): void {
     let currentUserEmail = this.authenticationService.getLoggedUser();
 
     this.orderItems.forEach((o) => {
-      if(o.who == currentUserEmail) {
+      if (o.who == currentUserEmail) {
         this.order.quantity = o.quantity;
       }
     });
@@ -115,7 +154,7 @@ export class OrdersComponent implements OnInit {
 
     this.pizzas = Math.ceil(this.slices / 8);
 
-    if(this.pizzas == 0)
+    if (this.pizzas == 0)
       return;
 
     this.slicesToGet = (this.pizzas * 8) - this.slices;
@@ -139,38 +178,38 @@ export class OrdersComponent implements OnInit {
 
   public makeOrder(): boolean {
     this.ordersService.makeOrder(this.order)
-    .subscribe(result => {
-      if(result)
-        this.loadOrdersInRoom(this.selectedRoomName);
-    },
-    error => alert(ErrorHelper.getErrorMessage(error))
-    );
+      .subscribe(result => {
+        if (result)
+          this.loadOrdersInRoom(this.selectedRoomName);
+      },
+      error => alert(ErrorHelper.getErrorMessage(error))
+      );
     return false;
   }
 
-  public cancel() : boolean {
+  public cancel(): boolean {
     let orderId: string = this.getOrderId();
 
     this.ordersService.removeOrder(this.selectedRoomName, orderId)
-    .subscribe(result => {
-      if(result)
-        this.loadOrdersInRoom(this.selectedRoomName);
-    },
-    error => alert(ErrorHelper.getErrorMessage(error))
-    );
+      .subscribe(result => {
+        if (result)
+          this.loadOrdersInRoom(this.selectedRoomName);
+      },
+      error => alert(ErrorHelper.getErrorMessage(error))
+      );
     return false;
   }
 
   private getOrderId(): string {
     let orderId: string;
     this.orderItems.forEach((o) => {
-      if(o.who == this.authenticationService.getLoggedUser()) {
+      if (o.who == this.authenticationService.getLoggedUser()) {
         orderId = o.id;
       }
     });
     return orderId;
   }
-  
+
   public refresh(): boolean {
     this.loadOrdersInRoom(this.selectedRoomName);
     return false;
@@ -179,17 +218,17 @@ export class OrdersComponent implements OnInit {
   public approveOrders(): void {
     this.ordersService.approveOrders(this.selectedRoomName)
       .subscribe(
-        result => this.refresh(),
-        error => alert(ErrorHelper.getErrorMessage(error))
+      result => this.refresh(),
+      error => alert(ErrorHelper.getErrorMessage(error))
       );
   }
 
   // events
   public chartClicked(e: any): void {
-    console.log(e);
+    //console.log(e);
   }
 
   public chartHovered(e: any): void {
-    console.log(e);
+    //console.log(e);
   }
 }

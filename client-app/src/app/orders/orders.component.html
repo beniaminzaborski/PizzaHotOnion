@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs">
   <li role="presentation" *ngFor="let room of rooms" [ngClass]="{ 'active' : room.isActive }">
-    <a href="" (click)="selectRoom(room)">{{room.name}}</a>
+    <a href="" (click)="selectRoom(room.name)">{{room.name}}</a>
   </li>
 </ul>
 
@@ -29,7 +29,7 @@
         <button class="btn btn-danger" type="button" (click)="cancel()" [disabled]="isApproved">Cancel</button>
         
         <button class="btn btn-warning" type="button" (click)="approveOrders()" [disabled]="isApproved || pizzas == 0">Approve orders</button>
-        <button class="btn btn-success" type="button" (click)="refresh()">Refresh</button>
+        <!-- <button class="btn btn-success" type="button" (click)="refresh()">Refresh</button> -->
       </div>
     </form>
     <br>
@@ -38,8 +38,10 @@
   <br>
 
   <div class="col-md-10" *ngIf="pizzas > 0">
-    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [colors]="pieChartColours" (chartHover)="chartHovered($event)"
-      (chartClick)="chartClicked($event)"></canvas>
+    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [colors]="pieChartColours" 
+      (chartHover)="chartHovered($event)"
+      (chartClick)="chartClicked($event)">
+    </canvas>
   </div>
 </div>
 

@@ -27,6 +27,13 @@ namespace PizzaHotOnion
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddSignalR();
+
+      services.AddCors(options => options.AddPolicy("AllowAny", x =>
+      {
+        x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+      }));
+
       services.AddMvc();
 
       services.Configure<Settings>(options =>
@@ -87,19 +94,10 @@ namespace PizzaHotOnion
           await next();
         }
       });
-
+      
       app.UseCors(config =>
         config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()
       );
-
-      // JWT Auth
-      //var tokenValidationParameters = new TokenValidationParametersBuilder().Build();
-      //   app.UseJwtBearerAuthentication(new JwtBearerOptions
-      //   {
-      //     AutomaticAuthenticate = true,
-      //     AutomaticChallenge = true,
-      //     TokenValidationParameters = tokenValidationParameters
-      //   });
 
       // Add JWT generation endpoint
       app.UseMiddleware<TokenProviderMiddleware>(
@@ -112,6 +110,11 @@ namespace PizzaHotOnion
       );
 
       app.UseAuthentication();
+
+      app.UseSignalR(routes =>
+      {
+        routes.MapHub<MessageHub>("message");
+      });
 
       app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } })
           .UseStaticFiles()

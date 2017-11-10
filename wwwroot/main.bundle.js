@@ -20,7 +20,7 @@ webpackEmptyAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
 /***/ "../../../../../src/app/about/about.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron\">\r\n  <h1>Pizza Hot Onion</h1>\r\n  <p>Hungry? Choose your favorite room and grab the slice!</p>\r\n  <p>Anytime! Anywhere!</p>\r\n  <p>\r\n    <a class=\"btn btn-primary btn-lg\" routerLink=\"/orders\" role=\"button\">Grab it!</a>\r\n  </p>\r\n  <br>\r\n  <p>\r\n    <small class=\"text-muted\">Powered by: .NET Core, Angular 4, MongoDB</small>\r\n  </p>\r\n</div>"
+module.exports = "<div class=\"jumbotron\">\r\n  <h1>Pizza Hot Onion</h1>\r\n  <p>Hungry? Choose your favorite room and grab the slice!</p>\r\n  <p>Anytime! Anywhere!</p>\r\n  <p>\r\n    <a class=\"btn btn-primary btn-lg\" routerLink=\"/orders\" role=\"button\">Grab it!</a>\r\n  </p>\r\n  <br>\r\n  <p>\r\n    <small class=\"text-muted\">Powered by: .NET Core, SingulaR, Angular 4, MongoDB</small>\r\n  </p>\r\n</div>"
 
 /***/ }),
 
@@ -144,7 +144,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav role=\"navigation\" class=\"navbar navbar-inverse navbar-fixed-top\" *ngIf=\"router.url != '/login'\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\"\r\n        aria-controls=\"navbar\">\r\n        <span class=\"sr-only\">Toggle navigation</span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      <a class=\"navbar-brand\">Hot Onion</a>\r\n    </div>\r\n    <div id=\"navbar\" class=\"navbar-collapse collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n        <li>\r\n          <a routerLink=\"/orders\" [routerLinkActive]=\"['active']\">Orders</a>\r\n        </li>\r\n        <li>\r\n            <a routerLink=\"/rooms\" [routerLinkActive]=\"['active']\">Rooms</a>\r\n        </li>\r\n      </ul>\r\n\r\n      <ul class=\"nav navbar-nav navbar-right\">\r\n        <li>\r\n          <a routerLink=\"/about\" [routerLinkActive]=\"['active']\">About</a>\r\n        </li>\r\n        <!--<li class=\"navbar-text pull-left\">{{username}}</li>-->\r\n        <li class=\"dropdown pull-right\">\r\n          <a href=\"#\" data-toggle=\"dropdown\" style=\"color:#777;\" class=\"dropdown-toggle\">\r\n            <span class=\"glyphicon glyphicon-user\"></span>\r\n            <b class=\"caret\"></b>\r\n          </a>\r\n          <ul class=\"dropdown-menu\">\r\n            <li>\r\n              <a routerLink=\"/profile\" [routerLinkActive]=\"['active']\" title=\"User profile\">\r\n                <span class=\"fa fa-user\" aria-hidden=\"true\"></span> Profile\r\n              </a>\r\n            </li>\r\n            <li>\r\n              <a href=\"#\" title=\"Sign Out\" (click)=\"logout(); $event.preventDefault()\">\r\n                <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span> Sign Out\r\n              </a>\r\n            </li>\r\n          </ul>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</nav>\r\n\r\n<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div>\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<footer class=\"footer navbar-inverse navbar-fixed-bottom\">\r\n  <div class=\"container-fluid\">\r\n    <span class=\"text-muted pull-right\">\r\n      <small>&copy; 2017 Biz | ver. 0.5.3-alpha</small>\r\n    </span>\r\n  </div>\r\n</footer>"
+module.exports = "<nav role=\"navigation\" class=\"navbar navbar-inverse navbar-fixed-top\" *ngIf=\"router.url != '/login'\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\"\r\n        aria-controls=\"navbar\">\r\n        <span class=\"sr-only\">Toggle navigation</span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      <a class=\"navbar-brand\">Hot Onion</a>\r\n    </div>\r\n    <div id=\"navbar\" class=\"navbar-collapse collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n        <li>\r\n          <a routerLink=\"/orders\" [routerLinkActive]=\"['active']\">Orders</a>\r\n        </li>\r\n        <li>\r\n            <a routerLink=\"/rooms\" [routerLinkActive]=\"['active']\">Rooms</a>\r\n        </li>\r\n      </ul>\r\n\r\n      <ul class=\"nav navbar-nav navbar-right\">\r\n        <li>\r\n          <a routerLink=\"/about\" [routerLinkActive]=\"['active']\">About</a>\r\n        </li>\r\n        <!--<li class=\"navbar-text pull-left\">{{username}}</li>-->\r\n        <li class=\"dropdown pull-right\">\r\n          <a href=\"#\" data-toggle=\"dropdown\" style=\"color:#777;\" class=\"dropdown-toggle\">\r\n            <span class=\"glyphicon glyphicon-user\"></span>\r\n            <b class=\"caret\"></b>\r\n          </a>\r\n          <ul class=\"dropdown-menu\">\r\n            <li>\r\n              <a routerLink=\"/profile\" [routerLinkActive]=\"['active']\" title=\"User profile\">\r\n                <span class=\"fa fa-user\" aria-hidden=\"true\"></span> Profile\r\n              </a>\r\n            </li>\r\n            <li>\r\n              <a href=\"#\" title=\"Sign Out\" (click)=\"logout(); $event.preventDefault()\">\r\n                <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span> Sign Out\r\n              </a>\r\n            </li>\r\n          </ul>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</nav>\r\n\r\n<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div>\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<footer class=\"footer navbar-inverse navbar-fixed-bottom\">\r\n  <div class=\"container-fluid\">\r\n    <span class=\"text-muted pull-right\">\r\n      <small>&copy; 2017 Biz | ver. 0.6.0-alpha</small>\r\n    </span>\r\n  </div>\r\n</footer>"
 
 /***/ }),
 
@@ -404,7 +404,7 @@ var Order = (function () {
 /***/ "../../../../../src/app/orders/orders.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ngFor=\"let room of rooms\" [ngClass]=\"{ 'active' : room.isActive }\">\r\n    <a href=\"\" (click)=\"selectRoom(room)\">{{room.name}}</a>\r\n  </li>\r\n</ul>\r\n\r\n<div *ngIf=\"selectedRoomName\">\r\n  <div>\r\n    <div *ngIf=\"pizzas > 0\">\r\n      <h4>\r\n        <span *ngIf=\"!isApproved\">\r\n          <strong>{{slicesToGet}}</strong> {{ slicesToGet == 1 ? 'slice' : 'slices' }} of\r\n          <strong>{{pizzas}}</strong> {{ pizzas == 1 ? 'pizza' : 'pizzas' }} to get\r\n        </span>\r\n        <span *ngIf=\"isApproved\">\r\n          <strong>{{pizzas}}</strong> {{ pizzas == 1 ? 'pizza' : 'pizzas' }} approved\r\n        </span>\r\n      </h4>\r\n    </div>\r\n    <div *ngIf=\"pizzas == 0\">\r\n      <h4>No orders</h4>\r\n    </div>\r\n\r\n    <form #orderForm=\"ngForm\" (submit)=\"makeOrder()\" class=\"form-inline\">\r\n      <div class=\"form-group\">\r\n        <input type=\"number\" class=\"form-control\" id=\"quantity\" name=\"quantity\" [(ngModel)]=\"order.quantity\" placeholder=\"Number of slices\"\r\n          [disabled]=\"isApproved\" required>\r\n        <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!orderForm.form.valid || isApproved\">Grab</button>\r\n        <button class=\"btn btn-danger\" type=\"button\" (click)=\"cancel()\" [disabled]=\"isApproved\">Cancel</button>\r\n        \r\n        <button class=\"btn btn-warning\" type=\"button\" (click)=\"approveOrders()\" [disabled]=\"isApproved || pizzas == 0\">Approve orders</button>\r\n        <button class=\"btn btn-success\" type=\"button\" (click)=\"refresh()\">Refresh</button>\r\n      </div>\r\n    </form>\r\n    <br>\r\n  </div>\r\n\r\n  <br>\r\n\r\n  <div class=\"col-md-10\" *ngIf=\"pizzas > 0\">\r\n    <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\" [colors]=\"pieChartColours\" (chartHover)=\"chartHovered($event)\"\r\n      (chartClick)=\"chartClicked($event)\"></canvas>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"!selectedRoomName\">\r\n  <h3>Choose your room</h3>\r\n</div>"
+module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ngFor=\"let room of rooms\" [ngClass]=\"{ 'active' : room.isActive }\">\r\n    <a href=\"\" (click)=\"selectRoom(room.name)\">{{room.name}}</a>\r\n  </li>\r\n</ul>\r\n\r\n<div *ngIf=\"selectedRoomName\">\r\n  <div>\r\n    <div *ngIf=\"pizzas > 0\">\r\n      <h4>\r\n        <span *ngIf=\"!isApproved\">\r\n          <strong>{{slicesToGet}}</strong> {{ slicesToGet == 1 ? 'slice' : 'slices' }} of\r\n          <strong>{{pizzas}}</strong> {{ pizzas == 1 ? 'pizza' : 'pizzas' }} to get\r\n        </span>\r\n        <span *ngIf=\"isApproved\">\r\n          <strong>{{pizzas}}</strong> {{ pizzas == 1 ? 'pizza' : 'pizzas' }} approved\r\n        </span>\r\n      </h4>\r\n    </div>\r\n    <div *ngIf=\"pizzas == 0\">\r\n      <h4>No orders</h4>\r\n    </div>\r\n\r\n    <form #orderForm=\"ngForm\" (submit)=\"makeOrder()\" class=\"form-inline\">\r\n      <div class=\"form-group\">\r\n        <input type=\"number\" class=\"form-control\" id=\"quantity\" name=\"quantity\" [(ngModel)]=\"order.quantity\" placeholder=\"Number of slices\"\r\n          [disabled]=\"isApproved\" required>\r\n        <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!orderForm.form.valid || isApproved\">Grab</button>\r\n        <button class=\"btn btn-danger\" type=\"button\" (click)=\"cancel()\" [disabled]=\"isApproved\">Cancel</button>\r\n        \r\n        <button class=\"btn btn-warning\" type=\"button\" (click)=\"approveOrders()\" [disabled]=\"isApproved || pizzas == 0\">Approve orders</button>\r\n        <!-- <button class=\"btn btn-success\" type=\"button\" (click)=\"refresh()\">Refresh</button> -->\r\n      </div>\r\n    </form>\r\n    <br>\r\n  </div>\r\n\r\n  <br>\r\n\r\n  <div class=\"col-md-10\" *ngIf=\"pizzas > 0\">\r\n    <canvas baseChart [data]=\"pieChartData\" [labels]=\"pieChartLabels\" [chartType]=\"pieChartType\" [colors]=\"pieChartColours\" \r\n      (chartHover)=\"chartHovered($event)\"\r\n      (chartClick)=\"chartClicked($event)\">\r\n    </canvas>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"!selectedRoomName\">\r\n  <h3>Choose your room</h3>\r\n</div>"
 
 /***/ }),
 
@@ -422,6 +422,10 @@ module.exports = "<ul class=\"nav nav-tabs\">\r\n  <li role=\"presentation\" *ng
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_charts__ = __webpack_require__("../../../../ng2-charts/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_charts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_charts__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_error_helper__ = __webpack_require__("../../../../../src/app/shared/error-helper.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__aspnet_signalr_client__ = __webpack_require__("../../../../@aspnet/signalr-client/dist/src/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__aspnet_signalr_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__aspnet_signalr_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_message_model__ = __webpack_require__("../../../../../src/app/shared/message.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_config__ = __webpack_require__("../../../../../src/app/shared/config.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -431,6 +435,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
+
 
 
 
@@ -460,22 +467,56 @@ var OrdersComponent = (function () {
         this.order.who = this.authenticationService.getLoggedUser();
     }
     OrdersComponent.prototype.ngOnInit = function () {
+        this.registerSignalR();
+        this.loadRooms();
+    };
+    OrdersComponent.prototype.registerSignalR = function () {
+        var _this = this;
+        var connection = new __WEBPACK_IMPORTED_MODULE_8__aspnet_signalr_client__["HubConnection"](__WEBPACK_IMPORTED_MODULE_10__shared_config__["a" /* Config */].baseUrl + "message");
+        connection.on('send', function (data) {
+            //console.log(data);
+            var message = data;
+            if (message) {
+                switch (message.operation) {
+                    case __WEBPACK_IMPORTED_MODULE_9__shared_message_model__["a" /* OperationType */].RoomCreated:
+                    case __WEBPACK_IMPORTED_MODULE_9__shared_message_model__["a" /* OperationType */].RoomDeleted:
+                        _this.loadRooms();
+                        break;
+                    case __WEBPACK_IMPORTED_MODULE_9__shared_message_model__["a" /* OperationType */].SliceGrabbed:
+                    case __WEBPACK_IMPORTED_MODULE_9__shared_message_model__["a" /* OperationType */].SliceCancelled:
+                    case __WEBPACK_IMPORTED_MODULE_9__shared_message_model__["a" /* OperationType */].OrdersApproved:
+                        if (message.context == _this.selectedRoomName)
+                            _this.loadOrdersInRoom(_this.selectedRoomName);
+                        break;
+                }
+            }
+        });
+        connection.start()
+            .then(function () {
+            //console.log('MessageHub Connected');
+        });
+    };
+    OrdersComponent.prototype.loadRooms = function () {
         var _this = this;
         this.roomService.getRooms()
             .subscribe(function (rooms) { return _this.onLoadRooms(rooms); });
     };
     OrdersComponent.prototype.onLoadRooms = function (rooms) {
+        var _this = this;
         this.rooms = rooms;
-        if (rooms.length > 0)
-            this.selectRoom(rooms[0]);
+        if (rooms.length > 0) {
+            if (this.selectedRoomName && this.rooms.some(function (r) { return r.name == _this.selectedRoomName; }))
+                this.selectRoom(this.selectedRoomName);
+            else
+                this.selectRoom(rooms[0].name);
+        }
     };
-    OrdersComponent.prototype.selectRoom = function (room) {
+    OrdersComponent.prototype.selectRoom = function (roomName) {
         this.rooms.forEach(function (r) {
-            r.isActive = false;
+            r.isActive = r.name == roomName;
         });
-        room.isActive = true;
-        this.selectedRoomName = room.name;
-        this.order.room = room.name;
+        this.selectedRoomName = roomName;
+        this.order.room = roomName;
         this.loadOrdersInRoom(this.selectedRoomName);
         return false;
     };
@@ -572,10 +613,10 @@ var OrdersComponent = (function () {
     };
     // events
     OrdersComponent.prototype.chartClicked = function (e) {
-        console.log(e);
+        //console.log(e);
     };
     OrdersComponent.prototype.chartHovered = function (e) {
-        console.log(e);
+        //console.log(e);
     };
     return OrdersComponent;
 }());
@@ -1292,6 +1333,32 @@ JsonContentInterceptor = __decorate([
 
 /***/ }),
 
+/***/ "../../../../../src/app/shared/message.model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Message */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OperationType; });
+var Message = (function () {
+    function Message(operation, context) {
+        this.operation = operation;
+        this.context = context;
+    }
+    return Message;
+}());
+
+var OperationType;
+(function (OperationType) {
+    OperationType[OperationType["RoomCreated"] = 1] = "RoomCreated";
+    OperationType[OperationType["RoomDeleted"] = 2] = "RoomDeleted";
+    OperationType[OperationType["SliceGrabbed"] = 3] = "SliceGrabbed";
+    OperationType[OperationType["SliceCancelled"] = 4] = "SliceCancelled";
+    OperationType[OperationType["OrdersApproved"] = 5] = "OrdersApproved";
+})(OperationType || (OperationType = {}));
+//# sourceMappingURL=message.model.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/user-profile/user-profile.component.html":
 /***/ (function(module, exports) {
 
@@ -1658,6 +1725,13 @@ webpackContext.id = "../../../../moment/locale recursive ^\\.\\/.*$";
 
 module.exports = __webpack_require__("../../../../../src/main.ts");
 
+
+/***/ }),
+
+/***/ 1:
+/***/ (function(module, exports) {
+
+/* (ignored) */
 
 /***/ })
 
