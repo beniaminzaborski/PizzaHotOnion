@@ -143,7 +143,7 @@ namespace PizzaHotOnion.Controllers
         {
           this.emailSerice
             .Send(
-              string.Join(",", users.Select(u => u.Email).ToArray()),
+              string.Join(",", users.Where(u => u.Email != orderDTO.Who).Select(u => u.Email).ToArray()),
               "Hot Onion",
               $"Oops someone is hungry. The pizza has been just opened in {orderDTO.Room} room by {orderDTO.Who}. Can you join me? Let's get some pizza."
             );
