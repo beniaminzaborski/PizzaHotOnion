@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 using PizzaHotOnion.DTOs;
 using PizzaHotOnion.Entities;
 using PizzaHotOnion.Repositories;
+using PizzaHotOnion.Services;
 
 namespace PizzaHotOnion.Controllers
 {
@@ -19,19 +20,22 @@ namespace PizzaHotOnion.Controllers
     private readonly IUserRepository userRepository;
     private readonly IOrdersApprovalRepository ordersApprovalRepository;
     private readonly IHubContext<MessageHub> messageHubContext;
+    private readonly IEmailService emailSerice;
 
     public OrdersController(
         IOrderRepository orderRepository,
         IRoomRepository roomRepository,
         IUserRepository userRepository,
         IOrdersApprovalRepository ordersApprovalRepository,
-        IHubContext<MessageHub> messageHubContext)
+        IHubContext<MessageHub> messageHubContext,
+        IEmailService emailSerice)
     {
       this.orderRepository = orderRepository;
       this.roomRepository = roomRepository;
       this.userRepository = userRepository;
       this.ordersApprovalRepository = ordersApprovalRepository;
       this.messageHubContext = messageHubContext;
+      this.emailSerice = emailSerice;
     }
 
     [HttpGet("{room}", Name = "GetAll")]
@@ -107,6 +111,8 @@ namespace PizzaHotOnion.Controllers
       if (userEntity == null)
         return BadRequest(string.Format("Cannot add order because user '{0}' does not exist", orderDTO.Who));
 
+      bool sendMessage = !await orderRepository.CheckAnyOrderExists(orderDTO.Room, orderDay);
+
       Order orderEntity = await this.orderRepository.GetOrder(orderDTO.Room, orderDay, orderDTO.Who);
       if (orderEntity == null)
       {
@@ -129,6 +135,20 @@ namespace PizzaHotOnion.Controllers
           "send",
           new MessageDTO { Operation = OperationType.SliceGrabbed, Context = orderDTO.Room }
         );
+
+      if (sendMessage)
+      {
+        var users = await this.userRepository.GetAll();
+        if(users != null && users.Count() > 0)
+        {
+          this.emailSerice
+            .Send(
+              string.Join(",", users.Select(u => u.Email).ToArray()),
+              "Hot Onion",
+              $"Oops someone is hungry. The pizza has been just opened in {orderDTO.Room} room by {orderDTO.Who}. Can you join me? Let's get some pizza."
+            );
+        }
+      }
 
       return CreatedAtRoute("GetOrder", new { id = orderEntity.Id }, new { });
     }
@@ -176,7 +196,7 @@ namespace PizzaHotOnion.Controllers
     public async Task<IActionResult> Delete(string room, Guid id)
     {
       if (id == Guid.Empty)
-        return BadRequest("Cannot delete order because it does not exists");
+        return BadRequest("Cannot delete order because it does not exist");
 
       if (await this.ordersApprovalRepository.CheckExistsByRoomDayAsync(room, DateTime.Now.Date))
         return BadRequest("Cannot delete order because it is approved");
