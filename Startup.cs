@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PizzaHotOnion.Configuration;
@@ -40,6 +41,11 @@ namespace PizzaHotOnion
       {
         options.ConnectionString = Program.Configuration.GetSection("MongoConnection:ConnectionString").Value;
         options.Database = Program.Configuration.GetSection("MongoConnection:Database").Value;
+        options.MailServer = Program.Configuration.GetSection("Mailer:Server").Value;
+        options.MailPort = int.Parse(Program.Configuration.GetSection("Mailer:Port").Value);
+        options.MailSender = Program.Configuration.GetSection("Mailer:Sender").Value;
+        options.MailUser = Program.Configuration.GetSection("Mailer:User").Value;
+        options.MailPasswd = Program.Configuration.GetSection("Mailer:Passwd").Value;
       });
 
       services.AddSingleton<IPasswordHasher, Md5PasswordHasher>();
@@ -48,13 +54,14 @@ namespace PizzaHotOnion
       services.AddScoped<IOrderRepository, OrderRepository>();
       services.AddScoped<IOrdersApprovalRepository, OrdersApprovalRepository>();
       services.AddScoped<IAuthenticationService, AuthenticationService>();
-      services.AddSingleton<IEmailService>(new EmailService(
-        Program.Configuration.GetSection("Mailer:Server").Value,
-        int.Parse(Program.Configuration.GetSection("Mailer:Port").Value),
-        Program.Configuration.GetSection("Mailer:Sender").Value,
-        Program.Configuration.GetSection("Mailer:User").Value,
-        Program.Configuration.GetSection("Mailer:Passwd").Value
-      ));
+      services.AddSingleton<IEmailService, EmailService>();
+      // services.AddSingleton<IEmailService>(new EmailService(
+      //   Program.Configuration.GetSection("Mailer:Server").Value,
+      //   int.Parse(Program.Configuration.GetSection("Mailer:Port").Value),
+      //   Program.Configuration.GetSection("Mailer:Sender").Value,
+      //   Program.Configuration.GetSection("Mailer:User").Value,
+      //   Program.Configuration.GetSection("Mailer:Passwd").Value
+      // ));
 
       //JWT
       tokenValidationParameters = new TokenValidationParametersBuilder().Build();
@@ -85,8 +92,13 @@ namespace PizzaHotOnion
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
     {
+      loggerFactory
+        .AddConsole()
+        //.AddDebug()
+        .AddFile("Logs/HotOnion-{Date}.log");
+
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
@@ -101,7 +113,7 @@ namespace PizzaHotOnion
           await next();
         }
       });
-      
+
       app.UseCors(config =>
         config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()
       );

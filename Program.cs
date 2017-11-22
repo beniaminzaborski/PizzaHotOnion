@@ -7,28 +7,39 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 
 namespace PizzaHotOnion
 {
-    public class Program
+  public class Program
+  {
+    public static IConfigurationRoot Configuration { get; set; }
+
+    public static void Main(string[] args)
     {
-        public static IConfigurationRoot Configuration { get; set; }
+      var builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json");
 
-        public static void Main(string[] args)
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+      Configuration = builder.Build();
 
-            Configuration = builder.Build();
-
-            BuildWebHost(args).Run();
-        }
-
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseUrls("http://*:8666")
-                .Build();
+      BuildWebHost(args).Run();
     }
+
+    public static IWebHost BuildWebHost(string[] args) =>
+        WebHost.CreateDefaultBuilder(args)
+            .ConfigureLogging((hostingContext, logging) =>
+            {
+                logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                logging.AddConsole();
+                logging.AddDebug();
+            })
+            .UseStartup<Startup>()
+            // .ConfigureLogging(logging =>
+            //     logging.AddFilter("System", LogLevel.Error)
+            //         .AddFilter<DebugLoggerProvider>("Microsoft", LogLevel.Error)
+            // )
+            .UseUrls("http://*:8666")
+            .Build();
+  }
 }
