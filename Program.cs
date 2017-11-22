@@ -35,10 +35,6 @@ namespace PizzaHotOnion
                 logging.AddDebug();
             })
             .UseStartup<Startup>()
-            // .ConfigureLogging(logging =>
-            //     logging.AddFilter("System", LogLevel.Error)
-            //         .AddFilter<DebugLoggerProvider>("Microsoft", LogLevel.Error)
-            // )
             .UseUrls("http://*:8666")
             .Build();
   }

@@ -95,8 +95,6 @@ namespace PizzaHotOnion
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
     {
       loggerFactory
-        .AddConsole()
-        //.AddDebug()
         .AddFile("Logs/HotOnion-{Date}.log");
 
       if (env.IsDevelopment())
