@@ -55,13 +55,6 @@ namespace PizzaHotOnion
       services.AddScoped<IOrdersApprovalRepository, OrdersApprovalRepository>();
       services.AddScoped<IAuthenticationService, AuthenticationService>();
       services.AddSingleton<IEmailService, EmailService>();
-      // services.AddSingleton<IEmailService>(new EmailService(
-      //   Program.Configuration.GetSection("Mailer:Server").Value,
-      //   int.Parse(Program.Configuration.GetSection("Mailer:Port").Value),
-      //   Program.Configuration.GetSection("Mailer:Sender").Value,
-      //   Program.Configuration.GetSection("Mailer:User").Value,
-      //   Program.Configuration.GetSection("Mailer:Passwd").Value
-      // ));
 
       //JWT
       tokenValidationParameters = new TokenValidationParametersBuilder().Build();
