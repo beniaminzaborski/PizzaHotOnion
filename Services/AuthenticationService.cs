@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using PizzaHotOnion.DTOs;
 using PizzaHotOnion.Entities;
+using PizzaHotOnion.Infrastructure;
 using PizzaHotOnion.Infrastructure.Security;
 using PizzaHotOnion.Repositories;
 
@@ -40,6 +41,9 @@ namespace PizzaHotOnion.Services
 
       if (string.IsNullOrWhiteSpace(registerUserDTO.Email))
         throw new BusinessException("Cannot register user because e-mail is empty");
+
+      if(!EmailHelper.CheckIsValidEmail(registerUserDTO.Email))
+        throw new BusinessException("Cannot register user because e-mail is incorrect");
 
       if (string.IsNullOrWhiteSpace(registerUserDTO.Passwd))
         throw new BusinessException("Cannot register user because password is empty");
