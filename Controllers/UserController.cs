@@ -35,5 +35,25 @@ namespace PizzaHotOnion.Controllers
       await this.authenticationService.ChangePassword(changePasswordDTO);
       return NoContent();
     }
+
+    [HttpGet("{email}")]
+    public async Task<IActionResult> GetUserProfile(string email)
+    {
+      if (string.IsNullOrEmpty(email))
+        return BadRequest("Cannot get user profile because e-mail is empty");
+
+      var userProfile = await this.authenticationService.GetUserProfileByEmail(email);
+      if (userProfile == null)
+        return NotFound("Cannot get user profile because user does not exist");
+
+      return new ObjectResult(userProfile);
+    }
+
+    [HttpPut("profile/{email}")]
+    public async Task<IActionResult> UpdateUserProfile(string email, [FromBody]UserProfileDTO userProfileDTO)
+    {
+      await this.authenticationService.UpdateUserProfile(userProfileDTO);
+      return NoContent();
+    }
   }
 }

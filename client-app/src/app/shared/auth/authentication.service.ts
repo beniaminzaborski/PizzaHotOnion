@@ -8,6 +8,7 @@ import { Config } from 'app/shared/config';
 import { User } from "./user.model";
 import { ChangePassword } from "./change-password.model";
 import { AuthData } from './auth-data.model';
+import { UserProfile } from "./user-profile.model";
 
 @Injectable()
 export class AuthenticationService {
@@ -67,6 +68,18 @@ export class AuthenticationService {
       { observe: 'response' }
     )
       .catch(this.handleErrors);
+  }
+
+  public getUserProfile(email: string): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${Config.apiUrl}user/${email}`);
+  }
+
+  public editUserProfile(userProfile: UserProfile): Observable<boolean> {
+    let body = JSON.stringify(userProfile);
+
+    return this.http.put(
+      `${Config.apiUrl}user/profile/${userProfile.email}`, body, { observe: 'response' }
+    ).map(response => response.status == 204);
   }
 
   public getToken(): string {

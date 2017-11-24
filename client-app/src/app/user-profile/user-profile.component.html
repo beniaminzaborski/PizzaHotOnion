@@ -1,30 +1,71 @@
 <!-- <div class="card">
     <div class="card-block"> -->
 <div class="col-xs-12 col-sm-6 offset-sm-3">
-  <form #changePasswdForm="ngForm" (submit)="changePassword()">
-    <fieldset>
-      <legend>User profile of {{model.email}}</legend>
-      <div class="form-group">
-        <label for="exampleInputEmail1">Current password</label>
-        <input type="password" class="form-control" id="currentPassword" name="currentPassword" [(ngModel)]="model.currentPassword"
-          required>
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">New password</label>
-        <input type="password" class="form-control" id="newPassword" name="newPassword" [(ngModel)]="model.newPassword" required>
-      </div>
-      <div class="form-group">
-        <label for="exampleInputEmail1">New password (again)</label>
-        <input type="password" class="form-control" id="newPassword2" name="newPassword2" [(ngModel)]="model.newPassword2" required>
-      </div>
-    </fieldset>
 
-    <br />
-    <div class="text-right">
-      <button class="btn btn-primary btn-submit" type="submit" [disabled]="!changePasswdForm.form.valid">Change password</button>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" href="#profile" role="tab" data-toggle="tab">User profile</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#password" role="tab" data-toggle="tab">Change password</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="profile">
+
+      <br/>
+      <form #profileForm="ngForm" (submit)="saveProfile()">
+        <fieldset>
+          <legend>User profile of {{model.email}}</legend>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" id="emailNotification" name="emailNotification" [(ngModel)]="userProfileModel.emailNotification"> E-mail notification
+            </label>
+          </div>
+        </fieldset>
+
+        <br />
+        <div class="text-right">
+          <button class="btn btn-primary btn-submit" type="submit" [disabled]="!profileForm.form.valid">Save profile</button>
+        </div>
+
+      </form>
+
+
     </div>
+    <div role="tabpanel" class="tab-pane fade" id="password">
 
-  </form>
+      <br/>
+      <form #changePasswdForm="ngForm" (submit)="changePassword()">
+        <fieldset>
+          <legend>Change password of {{model.email}}</legend>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Current password</label>
+            <input type="password" class="form-control" id="currentPassword" name="currentPassword" [(ngModel)]="model.currentPassword"
+              required>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">New password</label>
+            <input type="password" class="form-control" id="newPassword" name="newPassword" [(ngModel)]="model.newPassword" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">New password (again)</label>
+            <input type="password" class="form-control" id="newPassword2" name="newPassword2" [(ngModel)]="model.newPassword2" required>
+          </div>
+        </fieldset>
+
+        <br />
+        <div class="text-right">
+          <button class="btn btn-primary btn-submit" type="submit" [disabled]="!changePasswdForm.form.valid">Change password</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
 </div>
 <!-- </div>
   </div> -->

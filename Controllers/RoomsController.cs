@@ -52,7 +52,7 @@ namespace PizzaHotOnion.Controllers
 
       var room = await this.roomRepository.GetByNameAsync(name);
       if (room == null)
-        return NotFound("Cannot get room because room does not exists");
+        return NotFound("Cannot get room because room does not exist");
 
       return new ObjectResult(new RoomDTO { Name = room.Name });
     }

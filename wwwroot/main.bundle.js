@@ -144,7 +144,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav role=\"navigation\" class=\"navbar navbar-inverse navbar-fixed-top\" *ngIf=\"router.url != '/login'\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\"\r\n        aria-controls=\"navbar\">\r\n        <span class=\"sr-only\">Toggle navigation</span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      <a class=\"navbar-brand\">Hot Onion</a>\r\n    </div>\r\n    <div id=\"navbar\" class=\"navbar-collapse collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n        <li>\r\n          <a routerLink=\"/orders\" [routerLinkActive]=\"['active']\">Orders</a>\r\n        </li>\r\n        <li>\r\n            <a routerLink=\"/rooms\" [routerLinkActive]=\"['active']\">Rooms</a>\r\n        </li>\r\n      </ul>\r\n\r\n      <ul class=\"nav navbar-nav navbar-right\">\r\n        <li>\r\n          <a routerLink=\"/about\" [routerLinkActive]=\"['active']\">About</a>\r\n        </li>\r\n        <!--<li class=\"navbar-text pull-left\">{{username}}</li>-->\r\n        <li class=\"dropdown pull-right\">\r\n          <a href=\"#\" data-toggle=\"dropdown\" style=\"color:#777;\" class=\"dropdown-toggle\">\r\n            <span class=\"glyphicon glyphicon-user\"></span>\r\n            <b class=\"caret\"></b>\r\n          </a>\r\n          <ul class=\"dropdown-menu\">\r\n            <li>\r\n              <a routerLink=\"/profile\" [routerLinkActive]=\"['active']\" title=\"User profile\">\r\n                <span class=\"fa fa-user\" aria-hidden=\"true\"></span> Profile\r\n              </a>\r\n            </li>\r\n            <li>\r\n              <a href=\"#\" title=\"Sign Out\" (click)=\"logout(); $event.preventDefault()\">\r\n                <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span> Sign Out\r\n              </a>\r\n            </li>\r\n          </ul>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</nav>\r\n\r\n<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div>\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<footer class=\"footer navbar-inverse navbar-fixed-bottom\">\r\n  <div class=\"container-fluid\">\r\n    <span class=\"text-muted pull-right\">\r\n      <small>&copy; 2017 Biz | ver. 0.7.2-alpha</small>\r\n    </span>\r\n  </div>\r\n</footer>"
+module.exports = "<nav role=\"navigation\" class=\"navbar navbar-inverse navbar-fixed-top\" *ngIf=\"router.url != '/login'\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"navbar-header\">\r\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\"\r\n        aria-controls=\"navbar\">\r\n        <span class=\"sr-only\">Toggle navigation</span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n        <span class=\"icon-bar\"></span>\r\n      </button>\r\n      <a class=\"navbar-brand\">Hot Onion</a>\r\n    </div>\r\n    <div id=\"navbar\" class=\"navbar-collapse collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n        <li>\r\n          <a routerLink=\"/orders\" [routerLinkActive]=\"['active']\">Orders</a>\r\n        </li>\r\n        <li>\r\n            <a routerLink=\"/rooms\" [routerLinkActive]=\"['active']\">Rooms</a>\r\n        </li>\r\n      </ul>\r\n\r\n      <ul class=\"nav navbar-nav navbar-right\">\r\n        <li>\r\n          <a routerLink=\"/about\" [routerLinkActive]=\"['active']\">About</a>\r\n        </li>\r\n        <!--<li class=\"navbar-text pull-left\">{{username}}</li>-->\r\n        <li class=\"dropdown pull-right\">\r\n          <a href=\"#\" data-toggle=\"dropdown\" style=\"color:#777;\" class=\"dropdown-toggle\">\r\n            <span class=\"glyphicon glyphicon-user\"></span>\r\n            <b class=\"caret\"></b>\r\n          </a>\r\n          <ul class=\"dropdown-menu\">\r\n            <li>\r\n              <a routerLink=\"/profile\" [routerLinkActive]=\"['active']\" title=\"User profile\">\r\n                <span class=\"fa fa-user\" aria-hidden=\"true\"></span> Profile\r\n              </a>\r\n            </li>\r\n            <li>\r\n              <a href=\"#\" title=\"Sign Out\" (click)=\"logout(); $event.preventDefault()\">\r\n                <span class=\"fa fa-sign-out\" aria-hidden=\"true\"></span> Sign Out\r\n              </a>\r\n            </li>\r\n          </ul>\r\n        </li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</nav>\r\n\r\n<div class=\"container\">\r\n  <div class=\"row\">\r\n    <div>\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<footer class=\"footer navbar-inverse navbar-fixed-bottom\">\r\n  <div class=\"container-fluid\">\r\n    <span class=\"text-muted pull-right\">\r\n      <small>&copy; 2017 Biz | ver. 0.7.4-alpha</small>\r\n    </span>\r\n  </div>\r\n</footer>"
 
 /***/ }),
 
@@ -1010,6 +1010,13 @@ var AuthenticationService = (function () {
         }), { observe: 'response' })
             .catch(this.handleErrors);
     };
+    AuthenticationService.prototype.getUserProfile = function (email) {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_5_app_shared_config__["a" /* Config */].apiUrl + "user/" + email);
+    };
+    AuthenticationService.prototype.editUserProfile = function (userProfile) {
+        var body = JSON.stringify(userProfile);
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_5_app_shared_config__["a" /* Config */].apiUrl + "user/profile/" + userProfile.email, body, { observe: 'response' }).map(function (response) { return response.status == 204; });
+    };
     AuthenticationService.prototype.getToken = function () {
         return localStorage.getItem('token');
     };
@@ -1238,6 +1245,24 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/shared/auth/user-profile.model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserProfile; });
+var UserProfile = (function () {
+    function UserProfile(email, emailNotification) {
+        if (emailNotification === void 0) { emailNotification = false; }
+        this.email = email;
+        this.emailNotification = emailNotification;
+    }
+    return UserProfile;
+}());
+
+//# sourceMappingURL=user-profile.model.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/auth/user.model.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1362,7 +1387,7 @@ var OperationType;
 /***/ "../../../../../src/app/user-profile/user-profile.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <div class=\"card\">\r\n    <div class=\"card-block\"> -->\r\n<div class=\"col-xs-12 col-sm-6 offset-sm-3\">\r\n  <form #changePasswdForm=\"ngForm\" (submit)=\"changePassword()\">\r\n    <fieldset>\r\n      <legend>User profile of {{model.email}}</legend>\r\n      <div class=\"form-group\">\r\n        <label for=\"exampleInputEmail1\">Current password</label>\r\n        <input type=\"password\" class=\"form-control\" id=\"currentPassword\" name=\"currentPassword\" [(ngModel)]=\"model.currentPassword\"\r\n          required>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <label for=\"exampleInputEmail1\">New password</label>\r\n        <input type=\"password\" class=\"form-control\" id=\"newPassword\" name=\"newPassword\" [(ngModel)]=\"model.newPassword\" required>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <label for=\"exampleInputEmail1\">New password (again)</label>\r\n        <input type=\"password\" class=\"form-control\" id=\"newPassword2\" name=\"newPassword2\" [(ngModel)]=\"model.newPassword2\" required>\r\n      </div>\r\n    </fieldset>\r\n\r\n    <br />\r\n    <div class=\"text-right\">\r\n      <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!changePasswdForm.form.valid\">Change password</button>\r\n    </div>\r\n\r\n  </form>\r\n</div>\r\n<!-- </div>\r\n  </div> -->"
+module.exports = "<!-- <div class=\"card\">\r\n    <div class=\"card-block\"> -->\r\n<div class=\"col-xs-12 col-sm-6 offset-sm-3\">\r\n\r\n  <ul class=\"nav nav-tabs\" role=\"tablist\">\r\n    <li class=\"nav-item\">\r\n      <a class=\"nav-link active\" href=\"#profile\" role=\"tab\" data-toggle=\"tab\">User profile</a>\r\n    </li>\r\n    <li class=\"nav-item\">\r\n      <a class=\"nav-link\" href=\"#password\" role=\"tab\" data-toggle=\"tab\">Change password</a>\r\n    </li>\r\n  </ul>\r\n\r\n  <!-- Tab panes -->\r\n  <div class=\"tab-content\">\r\n    <div role=\"tabpanel\" class=\"tab-pane fade in active\" id=\"profile\">\r\n\r\n      <br/>\r\n      <form #profileForm=\"ngForm\" (submit)=\"saveProfile()\">\r\n        <fieldset>\r\n          <legend>User profile of {{model.email}}</legend>\r\n          <div class=\"form-check\">\r\n            <label class=\"form-check-label\">\r\n              <input type=\"checkbox\" class=\"form-check-input\" id=\"emailNotification\" name=\"emailNotification\" [(ngModel)]=\"userProfileModel.emailNotification\"> E-mail notification\r\n            </label>\r\n          </div>\r\n        </fieldset>\r\n\r\n        <br />\r\n        <div class=\"text-right\">\r\n          <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!profileForm.form.valid\">Save profile</button>\r\n        </div>\r\n\r\n      </form>\r\n\r\n\r\n    </div>\r\n    <div role=\"tabpanel\" class=\"tab-pane fade\" id=\"password\">\r\n\r\n      <br/>\r\n      <form #changePasswdForm=\"ngForm\" (submit)=\"changePassword()\">\r\n        <fieldset>\r\n          <legend>Change password of {{model.email}}</legend>\r\n          <div class=\"form-group\">\r\n            <label for=\"exampleInputEmail1\">Current password</label>\r\n            <input type=\"password\" class=\"form-control\" id=\"currentPassword\" name=\"currentPassword\" [(ngModel)]=\"model.currentPassword\"\r\n              required>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"exampleInputEmail1\">New password</label>\r\n            <input type=\"password\" class=\"form-control\" id=\"newPassword\" name=\"newPassword\" [(ngModel)]=\"model.newPassword\" required>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"exampleInputEmail1\">New password (again)</label>\r\n            <input type=\"password\" class=\"form-control\" id=\"newPassword2\" name=\"newPassword2\" [(ngModel)]=\"model.newPassword2\" required>\r\n          </div>\r\n        </fieldset>\r\n\r\n        <br />\r\n        <div class=\"text-right\">\r\n          <button class=\"btn btn-primary btn-submit\" type=\"submit\" [disabled]=\"!changePasswdForm.form.valid\">Change password</button>\r\n        </div>\r\n\r\n      </form>\r\n\r\n    </div>\r\n  </div>\r\n\r\n</div>\r\n<!-- </div>\r\n  </div> -->"
 
 /***/ }),
 
@@ -1375,6 +1400,7 @@ module.exports = "<!-- <div class=\"card\">\r\n    <div class=\"card-block\"> --
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_auth_change_password_model__ = __webpack_require__("../../../../../src/app/shared/auth/change-password.model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_auth_authentication_service__ = __webpack_require__("../../../../../src/app/shared/auth/authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_auth_user_profile_model__ = __webpack_require__("../../../../../src/app/shared/auth/user-profile.model.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1388,15 +1414,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var UserProfileComponent = (function () {
     function UserProfileComponent(router, authenticationService) {
         this.router = router;
         this.authenticationService = authenticationService;
         this.model = new __WEBPACK_IMPORTED_MODULE_2__shared_auth_change_password_model__["a" /* ChangePassword */]();
+        this.userProfileModel = new __WEBPACK_IMPORTED_MODULE_4__shared_auth_user_profile_model__["a" /* UserProfile */]('');
     }
     UserProfileComponent.prototype.ngOnInit = function () {
+        var _this = this;
         //this.titleService.setTitle(Config.title + " - Profil użytkownika");
         this.model.email = this.getUsername();
+        this.authenticationService.getUserProfile(this.model.email)
+            .subscribe(function (profile) { return _this.userProfileModel = profile; });
     };
     UserProfileComponent.prototype.changePassword = function () {
         this.authenticationService.changePassword(this.model)
@@ -1405,6 +1436,10 @@ var UserProfileComponent = (function () {
         }, function (error) {
             alert("Unfortunately we could not change your password. Please try again.");
         });
+    };
+    UserProfileComponent.prototype.saveProfile = function () {
+        this.authenticationService.editUserProfile(this.userProfileModel)
+            .subscribe();
     };
     UserProfileComponent.prototype.getUsername = function () {
         return this.authenticationService.getLoggedUser();

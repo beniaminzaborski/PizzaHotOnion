@@ -42,13 +42,13 @@ namespace PizzaHotOnion.Services
       if (string.IsNullOrWhiteSpace(registerUserDTO.Email))
         throw new BusinessException("Cannot register user because e-mail is empty");
 
-      if(!EmailHelper.CheckIsValidEmail(registerUserDTO.Email))
+      if (!EmailHelper.CheckIsValidEmail(registerUserDTO.Email))
         throw new BusinessException("Cannot register user because e-mail is incorrect");
 
       if (string.IsNullOrWhiteSpace(registerUserDTO.Passwd))
         throw new BusinessException("Cannot register user because password is empty");
 
-      if(registerUserDTO.Passwd.Length < 4)
+      if (registerUserDTO.Passwd.Length < 4)
         throw new BusinessException("Cannot register user because password is too short");
 
       if (await this.userRepository.CheckEmailExists(registerUserDTO.Email))
@@ -81,7 +81,7 @@ namespace PizzaHotOnion.Services
       if (changePasswordDTO.Passwd != changePasswordDTO.Passwd2)
         throw new BusinessException("Cannot change password because passwords are not equals");
 
-      if(changePasswordDTO.Passwd.Length < 4)
+      if (changePasswordDTO.Passwd.Length < 4)
         throw new BusinessException("Cannot change password because password is too short");
 
       var user = await this.userRepository.GetByEmailAsync(changePasswordDTO.Email);
@@ -96,6 +96,30 @@ namespace PizzaHotOnion.Services
           changePasswordDTO.Email,
           changePasswordDTO.Passwd
       );
+
+      await this.userRepository.Update(user);
+    }
+
+    public async Task<UserProfileDTO> GetUserProfileByEmail(string email)
+    {
+      var user = await this.userRepository.GetByEmailAsync(email);
+      if (user == null)
+        throw new BusinessException("Cannot get user profile because does not exist");
+
+      return new UserProfileDTO
+      {
+        Email = user.Email,
+        EmailNotification = user.EmailNotification
+      };
+    }
+
+    public async Task UpdateUserProfile(UserProfileDTO userProfileDTO)
+    {
+      var user = await this.userRepository.GetByEmailAsync(userProfileDTO.Email);
+      if (user == null)
+        throw new BusinessException("Cannot save user profile because does not exist");
+
+      user.EmailNotification = userProfileDTO.EmailNotification;
 
       await this.userRepository.Update(user);
     }
