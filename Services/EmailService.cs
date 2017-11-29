@@ -38,7 +38,7 @@ namespace PizzaHotOnion.Services
         {
           Host = server,
           Port = port,
-          EnableSsl = true,
+          EnableSsl = false,
           DeliveryMethod = SmtpDeliveryMethod.Network,
           Credentials = new System.Net.NetworkCredential(user, passwd),
           Timeout = 10000,
