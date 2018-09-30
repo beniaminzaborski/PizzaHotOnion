@@ -9,7 +9,7 @@ import { OrdersService } from './orders.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { OrdersApproval } from './orders-approval.model';
 import { ErrorHelper } from '../shared/error-helper';
-import { HubConnection } from '@aspnet/signalr-client';
+import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { Message, OperationType } from '../shared/message.model';
 import { Config } from '../shared/config';
 
@@ -56,10 +56,10 @@ export class OrdersComponent implements OnInit {
   }
 
   private registerSignalR() {
-    let connection = new HubConnection(`${Config.baseUrl}message`);
+    const connection = new HubConnectionBuilder().withUrl(`${Config.baseUrl}message`).build();
     connection.on('send', data => {
       //console.log(data);
-      let message: Message = <Message>data;
+      const message: Message = <Message>data;
       if(message) {
         switch(message.operation) {
           case OperationType.RoomCreated:
