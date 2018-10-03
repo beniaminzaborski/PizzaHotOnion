@@ -131,7 +131,7 @@ namespace PizzaHotOnion.Controllers
 
       //Broadcast message to client  
       await this.messageHubContext.Clients.All
-        .InvokeAsync(
+        .SendAsync(
           "send",
           new MessageDTO { Operation = OperationType.SliceGrabbed, Context = orderDTO.Room }
         );
@@ -184,7 +184,7 @@ namespace PizzaHotOnion.Controllers
 
       //Broadcast message to client  
       await this.messageHubContext.Clients.All
-        .InvokeAsync(
+        .SendAsync(
           "send",
           new MessageDTO { Operation = OperationType.SliceGrabbed, Context = orderDTO.Room }
         );
@@ -212,7 +212,7 @@ namespace PizzaHotOnion.Controllers
 
       //Broadcast message to client  
       await this.messageHubContext.Clients.All
-        .InvokeAsync(
+        .SendAsync(
           "send",
           new MessageDTO { Operation = OperationType.SliceCancelled, Context = room }
         );
@@ -256,7 +256,7 @@ namespace PizzaHotOnion.Controllers
 
       //Broadcast message to client  
       await this.messageHubContext.Clients.All
-        .InvokeAsync(
+        .SendAsync(
           "send",
           new MessageDTO { Operation = OperationType.OrdersApproved, Context = room }
         );

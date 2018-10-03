@@ -72,7 +72,7 @@ namespace PizzaHotOnion.Controllers
 
         //Broadcast message to client  
         await this.messageHubContext.Clients.All
-          .InvokeAsync(
+          .SendAsync(
             "send", 
             new MessageDTO { Operation = OperationType.RoomCreated, Context = roomDTO.Name }
           );
@@ -99,7 +99,7 @@ namespace PizzaHotOnion.Controllers
 
         //Broadcast message to client  
         await this.messageHubContext.Clients.All
-          .InvokeAsync(
+          .SendAsync(
             "send", 
             new MessageDTO { Operation = OperationType.RoomDeleted, Context = name }
           );

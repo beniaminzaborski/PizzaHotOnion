@@ -123,7 +123,7 @@ namespace PizzaHotOnion
 
       app.UseSignalR(routes =>
       {
-        routes.MapHub<MessageHub>("message");
+        routes.MapHub<MessageHub>("/message");
       });
 
       app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } })

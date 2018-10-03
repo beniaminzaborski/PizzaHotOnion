@@ -35,7 +35,7 @@ namespace PizzaHotOnion
                 logging.AddDebug();
             })
             .UseStartup<Startup>()
-            .UseUrls("http://*:8666")
+            .UseUrls("http://localhost:8666")
             .Build();
   }
 }

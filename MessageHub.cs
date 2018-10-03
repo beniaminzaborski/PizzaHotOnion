@@ -8,7 +8,7 @@ namespace PizzaHotOnion
   {
     public Task Send(MessageDTO message)
     {
-      return Clients.All.InvokeAsync("Send", message);
+      return Clients.All.SendAsync("Send", message);
     }
   }
 }
